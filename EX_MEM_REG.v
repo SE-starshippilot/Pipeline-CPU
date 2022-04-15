@@ -1,13 +1,14 @@
-module EX_MEM_REG(CLOCK,          
-                  RegWriteEN_In,  //enable signal for register write
-                  Mem2RegSEL_In,  //select signal between ALU result and memory output
-                  MemWriteEN_In,  //enable signal for memory write
-                  Branch_In,      //branch signal
+module EX_MEM_REG(CLOCK,
+                  RegWriteEN_In,        //enable signal for register write
+                  Mem2RegSEL_In,        //select signal between ALU result and memory output
+                  MemWriteEN_In,        //enable signal for memory write
+                  Branch_In,            //branch signal
                   ZeroFlag_In,
                   ALUResult_In,
-                  WriteData_In,   //data to be written in memory
-                  WriteReg_In,    //data to be written in register
+                  WriteData_In,         //data to be written in memory
+                  WriteBackRegAddr_In,  //address register to be written back
                   PC_In,
+
                   RegWriteEN_Out,
                   Mem2RegSEL_Out,
                   MemWriteEN_Out,
@@ -15,23 +16,25 @@ module EX_MEM_REG(CLOCK,
                   ZeroFlag_Out,
                   ALUResult_Out,
                   WriteData_Out,
-                  WriteReg_Out,
+                  WriteBackRegAddr_Out,
                   PC_Out);
     
     input CLOCK, RegWriteEN_In, Mem2RegSEL_In, MemWriteEN_In, Branch_In, ZeroFlag_In;
-    input [31:0] ALUResult_In, WriteData_In, WriteReg_In, PC_In;
+    input [31:0] ALUResult_In, WriteData_In, PC_In;
+    input [4:0] WriteBackRegAddr_In;
     output reg RegWriteEN_Out, Mem2RegSEL_Out, MemWriteEN_Out, Branch_Out, ZeroFlag_Out;
-    output reg [31:0] ALUResult_Out, WriteData_Out, WriteReg_Out, PC_Out;
+    output reg [31:0] ALUResult_Out, WriteData_Out, PC_Out;
+    output reg [4:0] WriteBackRegAddr_Out;
     
     always @ (posedge CLOCK) begin
-        RegWriteEN_Out <= RegWriteEN_In;
-        Mem2RegSEL_Out <= Mem2RegSEL_In;
-        MemWriteEN_Out <= MemWriteEN_In;
-        Branch_Out     <= Branch_In   ;
-        ZeroFlag_Out   <= ZeroFlag_In;
-        ALUResult_Out  <= ALUResult_In;
-        WriteData_Out  <= WriteData_In;
-        WriteReg_Out   <= WriteReg_In;
-        PC_Out         <= PC_In  ;
+        RegWriteEN_Out       <= RegWriteEN_In;
+        Mem2RegSEL_Out       <= Mem2RegSEL_In;
+        MemWriteEN_Out       <= MemWriteEN_In;
+        Branch_Out           <= Branch_In   ;
+        ZeroFlag_Out         <= ZeroFlag_In;
+        ALUResult_Out        <= ALUResult_In;
+        WriteData_Out        <= WriteData_In;
+        WriteBackRegAddr_Out <= WriteBackRegAddr_In;
+        PC_Out               <= PC_In  ;
     end
-        endmodule
+endmodule

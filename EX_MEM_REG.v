@@ -24,14 +24,14 @@ module EX_MEM_REG(CLOCK,
     output reg [31:0] ALUResult_Out, WriteData_Out, WriteReg_Out, PC_Out;
     
     always @ (posedge CLOCK) begin
-        RegWriteEN_Out = RegWriteEN_In;
-        Mem2RegSEL_Out = Mem2RegSEL_In;
-        MemWriteEN_Out = MemWriteEN_In;
-        Branch_Out     = Branch_In   ;
-        ZeroFlag_Out   = ZeroFlag_In;
-        ALUResult_Out  = ALUResult_In;
-        WriteData_Out  = WriteData_In;
-        WriteReg_Out   = WriteReg_In;
-        PC_Out         = PC_In  ;
+        RegWriteEN_Out <= RegWriteEN_In;
+        Mem2RegSEL_Out <= Mem2RegSEL_In;
+        MemWriteEN_Out <= MemWriteEN_In;
+        Branch_Out     <= Branch_In   ;
+        ZeroFlag_Out   <= ZeroFlag_In;
+        ALUResult_Out  <= ALUResult_In;
+        WriteData_Out  <= WriteData_In;
+        WriteReg_Out   <= WriteReg_In;
+        PC_Out         <= PC_In  ;
     end
         endmodule

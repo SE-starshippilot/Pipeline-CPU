@@ -1,4 +1,4 @@
-module EX_MEM_REG(CLOCK,          //clock
+module EX_MEM_REG(CLOCK,          
                   RegWriteEN_In,  //enable signal for register write
                   Mem2RegSEL_In,  //select signal between ALU result and memory output
                   MemWriteEN_In,  //enable signal for memory write

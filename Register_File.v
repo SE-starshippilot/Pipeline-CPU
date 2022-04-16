@@ -1,4 +1,4 @@
-module RegisterFile (CLOCK,       //clock signal
+module Register_File (CLOCK,       //clock signal
                      RESET,       //reset signal
                      RegRead1,    //address of register to be read, 1
                      RegRead2,    //address of register to be read, 2

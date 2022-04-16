@@ -1,4 +1,4 @@
-module MUX(in_A, in_B, sel, out);
+module MUX2_1(in_A, in_B, sel, out);
     input in_A, in_B, sel;
     output out;
 

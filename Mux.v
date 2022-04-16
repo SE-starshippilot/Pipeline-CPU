@@ -1,4 +1,4 @@
-module MUX2_1(In_A, In_B, SEL, Out);
+module Mux2_1_32BIT(In_A, In_B, SEL, Out);
     input[31:0] In_A, In_B;
     input SEL;
     output [31:0] Out;

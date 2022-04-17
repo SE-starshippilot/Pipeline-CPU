@@ -14,8 +14,8 @@ module ID_EX_REG(CLOCK,
                  Imm_In,
 
                  RegWriteEN_Out,
-                 MemWriteEN_Out,
                  Mem2RegSEL_Out,
+                 MemWriteEN_Out,
                  Branch_Out,
                  ALUCtrl_Out,
                  ALUSrc_Out,
@@ -25,7 +25,7 @@ module ID_EX_REG(CLOCK,
                  RTAddr_Out,
                  RDAddr_Out,
                  Shamt_Out,
-                 Imm_Out,
+                 Imm_Out
                  );
     
     input CLOCK, RegWriteEN_In, Mem2RegSEL_In, MemWriteEN_In, Branch_In, ALUCtrl_In, ALUSrc_In, RegDstSEL_In;

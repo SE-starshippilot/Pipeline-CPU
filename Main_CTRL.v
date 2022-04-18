@@ -3,12 +3,13 @@ module Main_CTRL (opcode,
                   RegWriteEN,
                   Mem2RegSEL,
                   MemWriteEN,
-                  Branch,
+                  Beq,
+                  Bne,
                   ALUCtrl,
                   ALUSrc,
                   RegDst);
     input [5:0] opcode, func;
-    output reg RegWriteEN, Mem2RegSEL, MemWriteEN, Branch, ALUCtrl, ALUSrc, RegDst;
+    output reg RegWriteEN, Mem2RegSEL, MemWriteEN, Beq, Bne, ALUCtrl, ALUSrc, RegDst;
     
     //R type instruction, parameter indicates func
     parameter SLL  = 6'd0;
@@ -55,7 +56,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 7;
                         ALUSrc     <= 4;
                         RegDst     <= 1;
@@ -65,7 +67,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 8;
                         ALUSrc     <= 4;
                         RegDst     <= 1;
@@ -75,7 +78,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 9;
                         ALUSrc     <= 4;
                         RegDst     <= 1;
@@ -85,7 +89,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 7;
                         ALUSrc     <= 3;
                         RegDst     <= 1;
@@ -95,7 +100,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 8;
                         ALUSrc     <= 3;
                         RegDst     <= 1;
@@ -105,7 +111,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 9;
                         ALUSrc     <= 3;
                         RegDst     <= 1;
@@ -115,7 +122,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;//brahcn?
+                        Beq        <= 0;//brahcn?
+                        Bne        <= 0;//brahcn?
                         ALUCtrl    <= 0;
                         ALUSrc     <= 0;//x
                         RegDst     <= 1;
@@ -125,7 +133,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 0;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -135,7 +144,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 0;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -145,7 +155,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 1;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -155,7 +166,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 1;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -165,7 +177,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 2;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -175,7 +188,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 3;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -185,7 +199,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 4;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -195,7 +210,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 5;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -205,7 +221,8 @@ module Main_CTRL (opcode,
                         RegWriteEN <= 1;
                         Mem2RegSEL <= 0;
                         MemWriteEN <= 0;
-                        Branch     <= 0;
+                        Beq        <= 0;
+                        Bne        <= 0;
                         ALUCtrl    <= 6;
                         ALUSrc     <= 0;
                         RegDst     <= 1;
@@ -217,117 +234,129 @@ module Main_CTRL (opcode,
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 1;
+                Beq        <= 1;
+                Bne        <= 1;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;
                 RegDst     <= 0;//x
             end
-            BNE: 
+            BNE:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 1;
+                Beq        <= 1;
+                Bne        <= 1;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;
                 RegDst     <= 0;//x
             end
-            ADDI: 
+            ADDI:
             begin
                 RegWriteEN <= 1;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            ADDIU: 
+            ADDIU:
             begin
                 RegWriteEN <= 1;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            ANDI: 
+            ANDI:
             begin
                 RegWriteEN <= 1;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            ORI: 
+            ORI:
             begin
                 RegWriteEN <= 1;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            XORI: 
+            XORI:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            LW: 
+            LW:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            SW: 
+            SW:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            J: 
+            J:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            JAL: 
+            JAL:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            STOP: 
+            STOP:
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Branch     <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;

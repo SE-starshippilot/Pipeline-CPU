@@ -2,7 +2,8 @@ module ID_EX_REG(CLOCK,
                  RegWriteEN_In,  //enable signal for register write
                  Mem2RegSEL_In,  //select signal between ALU result and memory output
                  MemWriteEN_In,  //enable signal for memory write
-                 Branch_In,      //branch signal
+                 Beq_In,         //beq signal
+                 Bne_In,         //bne signal
                  ALUCtrl_In,     //control signal for determine ALU operation
                  ALUSrc_In,      //control signal for determine ALU sources
                  RegDstSEL_In,   //selection signal for determine target register address
@@ -13,11 +14,11 @@ module ID_EX_REG(CLOCK,
                  Shamt_In,
                  Imm_In,
                  PCAddr_In,
-
                  RegWriteEN_Out,
                  Mem2RegSEL_Out,
                  MemWriteEN_Out,
-                 Branch_Out,
+                 Beq_Out,
+                 Bne_Out,
                  ALUCtrl_Out,
                  ALUSrc_Out,
                  RegDstSEL_Out,
@@ -27,14 +28,13 @@ module ID_EX_REG(CLOCK,
                  RDAddr_Out,
                  Shamt_Out,
                  Imm_Out,
-                 PCAddr_Out
-                 );
+                 PCAddr_Out);
     
-    input CLOCK, RegWriteEN_In, Mem2RegSEL_In, MemWriteEN_In, Branch_In, ALUCtrl_In, ALUSrc_In, RegDstSEL_In;
+    input CLOCK, RegWriteEN_In, Mem2RegSEL_In, MemWriteEN_In, Beq_In, Bne_In, ALUCtrl_In, ALUSrc_In, RegDstSEL_In;
     input [31:0] RegData1_In, RegData2_In, PCAddr_In;
     input [15:0] Imm_In;
     input [4:0] RTAddr_In, RDAddr_In, Shamt_In;
-    output reg RegWriteEN_Out, Mem2RegSEL_Out, MemWriteEN_Out, Branch_Out, ALUCtrl_Out, ALUSrc_Out, RegDstSEL_Out;
+    output reg RegWriteEN_Out, Mem2RegSEL_Out, MemWriteEN_Out, Beq_Out, Bne_Out, ALUCtrl_Out, ALUSrc_Out, RegDstSEL_Out;
     output reg [31:0] RegData1_Out, RegData2_Out, PCAddr_Out;
     output reg [15:0] Imm_Out;
     output reg [4:0] RTAddr_Out, RDAddr_Out, Shamt_Out;
@@ -42,7 +42,8 @@ module ID_EX_REG(CLOCK,
         RegWriteEN_Out <= RegWriteEN_In;
         Mem2RegSEL_Out <= Mem2RegSEL_In;
         MemWriteEN_Out <= MemWriteEN_In;
-        Branch_Out     <= Branch_In;
+        Beq_Out        <= Beq_In;
+        Bne_Out        <= Bne_In;
         ALUCtrl_Out    <= ALUCtrl_In;
         ALUSrc_Out     <= ALUSrc_In;
         RegDstSEL_Out  <= RegDstSEL_In;

@@ -1,6 +1,6 @@
 module EX_MEM_REG(CLOCK,
                   RegWriteEN_In,        //enable signal for register write
-                  Mem2RegSEL_In,        //select signal between ALU result and memory output
+                  Mem2RegSEL_In,        //select signal between ALU result and memory read
                   MemWriteEN_In,        //enable signal for memory write
                   Branch_In,            //branch signal
                   ZeroFlag_In,

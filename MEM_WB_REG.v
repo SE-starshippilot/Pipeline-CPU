@@ -1,9 +1,10 @@
-module MEM_WB_REH(CLOCK,
+module MEM_WB_REG(CLOCK,
                   RegWriteEN_In,
                   Mem2RegSEL_In,
                   ALUResult_In,
                   MemResult_In,
                   WriteBackRegAddr_In,
+
                   RegWriteEN_Out,
                   Mem2RegSEL_Out,
                   ALUResult_Out,

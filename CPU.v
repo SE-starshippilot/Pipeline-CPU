@@ -9,6 +9,7 @@
 `include "ALU.v"
 `include "EX_MEM_REG.v"
 `include "MainMemory.v"
+`include "MEM_WB_REG.v"
 
 module CPU(CLOCK,
            RESET);
@@ -58,10 +59,11 @@ module CPU(CLOCK,
     ALU_SRC alu_src(ALUSrc_E, RegReadData1_E, RegReadData2_E, Shamt_E, Imm_E, Op1, Op2);
     ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
     EX_MEM_REG ex_mem_reg(CLOCK, RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Branch_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, PCBranch_E, RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Branch_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCBranch_M);
+
     // ==  ==  ==  ==  == Stage3: Memory Access ==  ==  ==  ==  == 
     assign PCSrc_M = Branch_M & ZeroFlag_M;
     MainMemory mainmemory(CLOCK, RESET, 1'b1, ALUOut_M, {MemWriteEN_M, ALUOut_M, MemWriteData_M}, MemReadData_M);
-    
+    MEM_WB_REG mem_wb_reg(CLOCK, RegWriteEN_M, Mem2RegSEL_M, ALUOut_M, MemReadData_M, RegAddr3_M, RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W);
     
     
     

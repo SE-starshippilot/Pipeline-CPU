@@ -4,16 +4,17 @@
 `include "IF_ID_REG.v"
 `include "Main_CTRL.v"
 `include "Register_File.v"
-`include "Imm_Extender.v"
 `include "ID_EX_REG.v"
 `include "ALU_SRC.v"
+`include "ALU.v"
+`include "EX_MEM_REG.v"
 
 module CPU(CLOCK,
            RESET);
     input CLOCK, RESET;
     
-    wire PCSrc_M, RegWriteEN_D, RegWriteEN_E, RegWriteEN_W, Mem2RegSEL_D, Mem2RegSEL_E, MemWriteEN_D, MemWriteEN_E, Branch_D, Branch_E, ALUCtrl_D, ALUCtrl_E, ALUSrc_D, ALUSrc_E, RegDstSEL_D, RegDstSEL_E;
-    wire [31:0] PC, PCPlus4_F, PCPlus4_D, PCPlus4_E, PCBranch_E, PCBranch_M, PC_F, Inst_F, Inst_D, Imm_SignExt_E, Imm_ZeroExt_E, RegData_D, RegData_E, RegRead1_D, RegRead1_E, RegRead2_D, RegRead2_E;
+    wire PCSrc_M, RegWriteEN_D, RegWriteEN_E, RegWriteEN_M, RegWriteEN_W, Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W, MemWriteEN_D, MemWriteEN_E, MemWriteEN_M, Branch_D, Branch_E, Branch_M, ALUCtrl_D, ALUCtrl_E, ALUSrc_D, ALUSrc_E, RegDstSEL_D, RegDstSEL_E, ZeroFlag_E, ZeroFlag_M， MemWriteData_M;
+    wire [31:0] PC, PCPlus4_F, PCPlus4_D, PCPlus4_E, PCBranch_E, PCBranch_M, PC_F, Inst_F, Inst_D, Imm_SignExt_E, Imm_ZeroExt_E, RegData_D, RegData_E, RegRead1_D, RegRead1_E, RegRead2_D, RegRead2_E, ALUOut_E, ALUOut_M;
     wire signed [31:0] Op1, Op2;
     wire [15:0] Imm_E;
     wire [4:0] RegAddr1, RegAddr2, RegAddr3_E, RegAddr3_M, RegAddr3_W, Rt_E, Rd_E, Shamt_E;
@@ -35,6 +36,8 @@ module CPU(CLOCK,
     assign PCBranch_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E; 
     Mux2_1_5BIT regdstselction(Rt_E, Rd_E, RegDstSEL_E, RegAddr3_E);
     ALU_SRC alu_src(ALUSrc_E, RegRead1_E, RegRead2_E, Shamt_E, Imm_E, Op1, Op2);
+    ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
+    EX_MEM_REG ex_mem_reg(CLOCK, RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Branch_E, ZeroFlag_E, ALUOut_E, RegRead2_E, RegAddr3_E, PCBranch_E, RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Branch_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCBranch_M);
     
     
     

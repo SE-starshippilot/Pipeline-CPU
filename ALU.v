@@ -19,10 +19,9 @@ module ALU(ctrl,
             4: result       = selected_A ^ selected_B;
             5: result       = ~(selected_A | selected_B);
             6: result       = selected_A < selected_B;
-            7: result       = $unsigned(selected_A) < $unsigned(selected_B);
-            8: result       = selected_B << selected_A;
-            9: result       = selected_B >> selected_A;
-            10:result       = selected_B >>> selected_A;
+            7: result       = selected_B << selected_A;
+            8: result       = selected_B >> selected_A;
+            9: result       = selected_B >>> selected_A;
             default: result = 32'bx;
         endcase
         zero_flag = (ctrl == 1 && result == 0)? 1:0;

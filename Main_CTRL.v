@@ -235,7 +235,7 @@ module Main_CTRL (opcode,
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
                 Beq        <= 1;
-                Bne        <= 1;
+                Bne        <= 0;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;
                 RegDst     <= 0;//x
@@ -245,7 +245,7 @@ module Main_CTRL (opcode,
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
                 MemWriteEN <= 0;
-                Beq        <= 1;
+                Beq        <= 0;
                 Bne        <= 1;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;

@@ -5,7 +5,7 @@ module ALU(ctrl,
            zero_flag
            );
     
-    input ctrl;
+    input [4:0] ctrl;
     input signed [31:0] selected_A, selected_B;
     output reg[31:0] result;
     output reg zero_flag;

@@ -28,6 +28,8 @@ module CPU(CLOCK,
     wire signed [31:0] Op1, Op2;                                        //32-bit signed data as ALU's operands
     wire [15:0] Imm_E;                                                  //16-bit immediate field from the instruction
     wire [4:0] RegAddr1, RegAddr2,                                      //5-bit register address that reads data from register file
+    ALUCtrl_D,    ALUCtrl_E,                                            //control signal for ALU operation
+    ALUSrc_D,     ALUSrc_E,                                             //control signal for ALU operands
     RegAddr3_E, RegAddr3_M, RegAddr3_W,                                 //5-bit register address that writes data to register file
     Rt_E, Rd_E,                                                         //5-bit register address of Rt, Rd from instruction
     Shamt_E;                                                            //5-bit shift amount from instruction
@@ -37,8 +39,6 @@ module CPU(CLOCK,
     MemWriteEN_D, MemWriteEN_E, MemWriteEN_M,                           //enable signal for memory write
     Beq_D,     Beq_E,     Beq_M,                                        //select signal for beq
     Bne_D,     Bne_E,     Bne_M,                                        //select signal for bne
-    ALUCtrl_D,    ALUCtrl_E,                                            //control signal for ALU operation
-    ALUSrc_D,     ALUSrc_E,                                             //control signal for ALU operands
     RegDstSEL_D,  RegDstSEL_E,                                          //selection signal for write back register address
     ZeroFlag_E,   ZeroFlag_M;                                           //indicator for zero flag
     
@@ -52,9 +52,9 @@ module CPU(CLOCK,
     IF_ID_REG if_id_reg(CLOCK, Inst_F, PCPlus4_F, Inst_D, PCPlus4_D);
     
     // ==  ==  ==  ==  == Stage2: Instruction Decode ==  ==  ==  ==  == 
-    Main_CTRL main_ctrl(Inst_D[31:26], Inst_D[5:0], RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D);
     Register_File register_file(CLOCK, RESET, Inst_D[25:21], Inst_D[20:16], RegAddr3_W, RegWriteData_W, RegWriteEN_W, RegReadData1_D, RegReadData2_D);
-    ID_EX_REG id_ex_reg(CLOCK, RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D,ALUSrc_D,RegDstSEL_D,RegReadData1_D,RegReadData2_D,Inst_D[20:16],Inst_D[15:11],Inst_D[10:6],Inst_D[15:0],PCPlus4_D, RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
+    Main_CTRL main_ctrl(Inst_D[31:26], Inst_D[5:0], RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D);
+    ID_EX_REG id_ex_reg(CLOCK, RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D, RegReadData1_D, RegReadData2_D, Inst_D[20:16], Inst_D[15:11], Inst_D[10:6], Inst_D[15:0], PCPlus4_D, RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
     
     // ==  ==  ==  ==  == Stage3: Instruction Execution ==  ==  ==  ==  == 
     assign PCBranch_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E;

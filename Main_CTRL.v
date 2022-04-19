@@ -9,7 +9,8 @@ module Main_CTRL (opcode,
                   ALUSrc,
                   RegDst);
     input [5:0] opcode, func;
-    output reg RegWriteEN, Mem2RegSEL, MemWriteEN, Beq, Bne, ALUCtrl, ALUSrc, RegDst;
+    output reg RegWriteEN, Mem2RegSEL, MemWriteEN, Beq, Bne, RegDst;
+    output reg [4:0] ALUCtrl, ALUSrc;
     
     //R type instruction, parameter indicates func
     parameter SLL  = 6'd0;
@@ -46,6 +47,7 @@ module Main_CTRL (opcode,
     parameter RTYPE = 6'd0;     //opcode = 000000, R-type
     
     always @(opcode, func) begin
+        // $display("opcode, func in Main Control:%b   |   %b", opcode, func);
         case(opcode)
             RTYPE:
             begin
@@ -254,12 +256,12 @@ module Main_CTRL (opcode,
             ADDI:
             begin
                 RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
+                Mem2RegSEL <= 4;
                 MemWriteEN <= 0;
                 Beq        <= 0;
                 Bne        <= 0;
                 ALUCtrl    <= 0;
-                ALUSrc     <= 0;
+                ALUSrc     <= 2;
                 RegDst     <= 0;
             end
             ADDIU:
@@ -270,7 +272,7 @@ module Main_CTRL (opcode,
                 Beq        <= 0;
                 Bne        <= 0;
                 ALUCtrl    <= 0;
-                ALUSrc     <= 0;
+                ALUSrc     <= 2;
                 RegDst     <= 0;
             end
             ANDI:
@@ -280,11 +282,66 @@ module Main_CTRL (opcode,
                 MemWriteEN <= 0;
                 Beq        <= 0;
                 Bne        <= 0;
+                ALUCtrl    <= 2;
+                ALUSrc     <= 1;
+                RegDst     <= 0;
+            end
+            ORI:
+            begin
+                RegWriteEN <= 1;
+                Mem2RegSEL <= 0;
+                MemWriteEN <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
+                ALUCtrl    <= 3;
+                ALUSrc     <= 1;
+                RegDst     <= 0;
+            end
+            XORI:
+            begin
+                RegWriteEN <= 1;
+                Mem2RegSEL <= 0;
+                MemWriteEN <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
+                ALUCtrl    <= 4;
+                ALUSrc     <= 1;
+                RegDst     <= 0;
+            end
+            LW:
+            begin
+                RegWriteEN <= 1;
+                Mem2RegSEL <= 1;
+                MemWriteEN <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
+                ALUCtrl    <= 0;
+                ALUSrc     <= 2;
+                RegDst     <= 0;
+            end
+            SW:
+            begin
+                RegWriteEN <= 0;
+                Mem2RegSEL <= 0;
+                MemWriteEN <= 1;
+                Beq        <= 0;
+                Bne        <= 0;
+                ALUCtrl    <= 2;
+                ALUSrc     <= 0;
+                RegDst     <= 0;//x
+            end
+            J:                      //not sure if correct
+            begin
+                RegWriteEN <= 0;
+                Mem2RegSEL <= 0;
+                MemWriteEN <= 0;
+                Beq        <= 0;
+                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            ORI:
+            JAL:                    //not sure if correct
             begin
                 RegWriteEN <= 1;
                 Mem2RegSEL <= 0;
@@ -295,7 +352,7 @@ module Main_CTRL (opcode,
                 ALUSrc     <= 0;
                 RegDst     <= 0;
             end
-            XORI:
+            STOP:                   //do we even need this?
             begin
                 RegWriteEN <= 0;
                 Mem2RegSEL <= 0;
@@ -305,61 +362,18 @@ module Main_CTRL (opcode,
                 ALUCtrl    <= 0;
                 ALUSrc     <= 0;
                 RegDst     <= 0;
+                $display("Hello?");
             end
-            LW:
+            default:                   //do we even need this?
             begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
-            end
-            SW:
-            begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
-            end
-            J:
-            begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
-            end
-            JAL:
-            begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
-            end
-            STOP:
-            begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
+                RegWriteEN <= 1;
+                Mem2RegSEL <= 1;
+                MemWriteEN <= 1;
+                Beq        <= 1;
+                Bne        <= 1;
+                ALUCtrl    <= 1;
+                ALUSrc     <= 1;
+                RegDst     <= 1;
             end
         endcase
     end

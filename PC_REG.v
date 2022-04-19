@@ -6,7 +6,6 @@ output reg [31:0] InstRAM_addr;
 task reset;
     begin
         InstRAM_addr <= 32'b0;
-        $display("RESET!");
     end
 endtask
 

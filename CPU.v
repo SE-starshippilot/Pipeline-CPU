@@ -48,7 +48,7 @@ module CPU(CLOCK,
     Mux2_1_32BIT pcselection(PCPlus4_F, PCBranch_M, PCSrc_M, PC);
     PC_REG pc_register(CLOCK, RESET, PC, PC_F);
     ADDER_32BIT pc_adder(PC_F, 32'd4, PCPlus4_F);
-    InstructionRAM instructionram(CLOCK, RESET, 1'b1, PC_F, Inst_F);
+    InstructionRAM instructionram(CLOCK, RESET, 1'b1, PC_F>>2, Inst_F);
     IF_ID_REG if_id_reg(CLOCK, Inst_F, PCPlus4_F, Inst_D, PCPlus4_D);
     
     // ==  ==  ==  ==  == Stage2: Instruction Decode ==  ==  ==  ==  == 

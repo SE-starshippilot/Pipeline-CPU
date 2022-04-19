@@ -1,9 +1,20 @@
-module PC_REG(CLOCK, RESET, pc_in, pc_out);
+module PC_REG(CLOCK, RESET, raw_addr, InstRAM_addr);
 input CLOCK, RESET;
-input [31:0] pc_in;
-output reg [31:0] pc_out;
+input [31:0] raw_addr;
+output reg [31:0] InstRAM_addr;
+
+task reset;
+    begin
+        InstRAM_addr <= 32'b0;
+        $display("RESET!");
+    end
+endtask
+
+initial reset;
+
+always @ (posedge RESET) reset;
 
 always @ (posedge CLOCK) begin
-    if (RESET != 1'b0) pc_out <= pc_in;
+    InstRAM_addr <= raw_addr;
 end
 endmodule

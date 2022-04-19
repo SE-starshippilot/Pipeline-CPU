@@ -53,7 +53,7 @@ module Register_File (CLOCK,       //clock signal
     
     initial reset;
     
-    always @(RESET) reset;
+    always @(posedge RESET) reset;
     
     always @(posedge CLOCK) begin
         if (RegWrite == 1) RegFile[RegWrite] <= DataWrite;

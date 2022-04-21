@@ -325,8 +325,8 @@ module Main_CTRL (opcode,
                 MemWriteEN <= 1;
                 Beq        <= 0;
                 Bne        <= 0;
-                ALUCtrl    <= 2;
-                ALUSrc     <= 0;
+                ALUCtrl    <= 0;
+                ALUSrc     <= 2;
                 RegDst     <= 0;//x
             end
             J:                      //not sure if correct

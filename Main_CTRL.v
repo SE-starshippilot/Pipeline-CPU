@@ -47,7 +47,6 @@ module Main_CTRL (opcode,
     parameter RTYPE = 6'd0;     //opcode = 000000, R-type
     
     always @(opcode, func) begin
-        // $display("opcode, func in Main Control:%b   |   %b", opcode, func);
         case(opcode)
             RTYPE:
             begin

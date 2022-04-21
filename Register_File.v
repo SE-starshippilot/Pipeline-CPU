@@ -56,8 +56,10 @@ module Register_File (CLOCK,       //clock signal
     always @(posedge RESET) reset;
     
     always @(posedge CLOCK) begin
-        #5
-        if (RegWrite == 1) RegFile[RegWrite] <= DataWrite;
+        if (WriteEnable == 1) begin
+            RegFile[RegWrite] <= DataWrite;
+        end
+        #2
         ReadOut1 <= RegFile[RegRead1];
         ReadOut2 <= RegFile[RegRead2];
     end

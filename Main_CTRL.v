@@ -353,15 +353,14 @@ module Main_CTRL (opcode,
             end
             STOP:                   //do we even need this?
             begin
-                RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
+                RegWriteEN <= 1;
+                Mem2RegSEL <= 1;
+                MemWriteEN <= 1;
+                Beq        <= 1;
+                Bne        <= 1;
+                ALUCtrl    <= 63;
+                ALUSrc     <= 63;
                 RegDst     <= 0;
-                $display("Hello?");
             end
             default:                   //do we even need this?
             begin

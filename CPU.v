@@ -17,9 +17,10 @@ module CPU(CLOCK,
            RESET);
     input CLOCK, RESET;
     
-    wire [31:0] raw_PC,
-    PC, PCPlus4_F, PCPlus4_D, PCPlus4_E,                                //32-bit PC address + 4
-    BranchAddr_E, BranchAddr_M, PC_F,                                   //32-bit PC address branched
+    wire [31:0] PCJumpAddr,                                             //32-bit PC address for jumping
+    PCBranched, PCJumped,                                               //32-bit PC address considering the jumping and branching
+    PCPlus4_F, PCPlus4_D, PCPlus4_E,                                    //32-bit PC address + 4
+    PCBranchAddr_E, PCBranchAddr_M, PC_F,                               //32-bit PC address branched
     Inst_F, Inst_D,                                                     //32-bit instruction
     RegWriteData_W,                                                     //32-bit data to be written in the register file
     RegReadData1_D, RegReadData1_E,                                     //32-bit data read from register file
@@ -29,7 +30,8 @@ module CPU(CLOCK,
     MemReadData_M, MemReadData_W;                                       //32-bit data read from RAM
     wire signed [31:0] Op1, Op2;                                        //32-bit signed data as ALU's operands
     wire [15:0] Imm_D, Imm_E;                                           //16-bit immediate field from the instruction
-    wire [5:0] Opcode_D, Func_D;                                        //6-bit opcode and function code
+    wire [5:0] Opcode_F, Opcode_D,                                      //6-bit opcode
+    Func_F,Func_D;                                                      //6-bit function code
     wire [4:0] RegAddr1_D, RegAddr2_D,                                  //5-bit register address that reads data from register file
     ALUCtrl_D,    ALUCtrl_E,                                            //control signal for ALU operation
     ALUSrc_D,     ALUSrc_E,                                             //control signal for ALU operands
@@ -49,11 +51,14 @@ module CPU(CLOCK,
     
     
     // ==  ==  ==  ==  == Stage1: Instruction Fetch ==  ==  ==  ==  == 
-    // Mux2_1 #(32) branch_sel(PCPlus4_F, BranchAddr_M, PCSrc_M, PC);
-    Jump_CTRL jump_ctrl(Inst_F[31:26], Inst_F[5:0], JSEL);
-    Mux2_1#(32) jump_sel(PCPlus4_F, {{PCPlus4_F[31:28]}, Inst_F[25:0], 2'b0}, JSEL, raw_PC);
-    PC_REG pc_register(CLOCK, RESET, raw_PC, PC_F);
-    ADDER_32BIT pc_adder(PC_F, 32'd4, PCPlus4_F);
+    assign Opcode_F = Inst_F[31:26];
+    assign Func_F = Inst_F[5:0];
+    assign PCJumpAddr = {{PCPlus4_F[31:28]}, Inst_F[25:0], 2'b0};
+    Mux2_1 #(32) branch_sel(PCPlus4_F, PCBranchAddr_M, PCSrc_M, PCBranched);
+    Jump_CTRL jump_ctrl(Opcode_F, Func_F, JSEL);
+    Mux2_1 #(32) jump_sel(PCBranched, PCJumpAddr, JSEL, PCJumped);
+    PC_REG pc_register(CLOCK, RESET, PCJumped, PC_F);
+    ADDER  #(32) pc_adder(PC_F, 32'd4, PCPlus4_F);
     InstructionRAM instructionram(PC_F>>2, Inst_F);
     IF_ID_REG if_id_reg(CLOCK,
                         Inst_F, PCPlus4_F, 
@@ -78,18 +83,20 @@ module CPU(CLOCK,
                         RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
 
     // ==  ==  ==  ==  == Stage3: Instruction Execution ==  ==  ==  ==  == 
-    assign BranchAddr_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E;
+    assign PCBranchAddr_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E;
     Mux2_1#(5) regdstselction (Rt_E, Rd_E, RegDstSEL_E, RegAddr3_E);
     ALU_SRC alu_src(ALUSrc_E, RegReadData1_E, RegReadData2_E, Shamt_E, Imm_E, Op1, Op2);
     ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
     EX_MEM_REG ex_mem_reg(CLOCK,
-                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, BranchAddr_E, 
-                          RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Beq_M, Bne_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, BranchAddr_M);
+                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, PCBranchAddr_E, 
+                          RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Beq_M, Bne_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCBranchAddr_M);
 
     // ==  ==  ==  ==  == Stage4: Memory Access ==  ==  ==  ==  == 
     assign PCSrc_M = (Beq_M & ZeroFlag_M) | (Bne_M & !(ZeroFlag_M));
     MainMemory mainmemory(CLOCK, RESET, MemWriteEN_M, ALUOut_M>>2,  MemWriteData_M,  MemReadData_M);
-    MEM_WB_REG mem_wb_reg(CLOCK, RegWriteEN_M, Mem2RegSEL_M, ALUOut_M, MemReadData_M, RegAddr3_M, RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W);
+    MEM_WB_REG mem_wb_reg(CLOCK,
+                          RegWriteEN_M, Mem2RegSEL_M, ALUOut_M, MemReadData_M, RegAddr3_M,
+                          RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W);
     
     // ==  ==  ==  ==  == Stage5: Write Back ==  ==  ==  ==  == 
     Mux2_1#(32) wbdataselection(ALUOut_W, MemReadData_W, Mem2RegSEL_W, RegWriteData_W);

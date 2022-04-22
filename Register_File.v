@@ -1,12 +1,12 @@
 module Register_File (CLOCK,       //clock signal
-                     RESET,       //reset signal
-                     RegRead1,    //address of register to be read, 1
-                     RegRead2,    //address of register to be read, 2
-                     RegWrite,    //address of register to be written
-                     DataWrite,   //data to be written in the register file
-                     WriteEnable, //write enable
-                     ReadOut1,    //data output from register 1
-                     ReadOut2);   //data output from register 2
+                      RESET,       //reset signal
+                      RegRead1,    //address of register to be read, 1
+                      RegRead2,    //address of register to be read, 2
+                      RegWrite,    //address of register to be written
+                      DataWrite,   //data to be written in the register file
+                      WriteEnable, //write enable
+                      ReadOut1,    //data output from register 1
+                      ReadOut2);   //data output from register 2
     input[4:0] RegRead1, RegRead2, RegWrite;
     input[31:0] DataWrite;
     input WriteEnable, CLOCK, RESET;
@@ -56,10 +56,10 @@ module Register_File (CLOCK,       //clock signal
     always @(posedge RESET) reset;
     
     always @(posedge CLOCK) begin
+        #2;
         if (WriteEnable == 1) begin
-            RegFile[RegWrite] <= DataWrite;
+            RegFile[RegWrite] = DataWrite;
         end
-        #2
         ReadOut1 <= RegFile[RegRead1];
         ReadOut2 <= RegFile[RegRead2];
     end

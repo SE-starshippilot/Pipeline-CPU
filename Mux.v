@@ -3,7 +3,7 @@ module Mux2_1 #(parameter WIDTH = 32)(In_A, In_B, SEL, Out);
     input SEL;
     output reg[WIDTH - 1:0] Out;
     always @(*) begin
-        Out <= (SEL == 1'b0)? In_A: In_B;
+        Out <= (SEL === 1'b0)? In_A: In_B;
     end
 endmodule
 

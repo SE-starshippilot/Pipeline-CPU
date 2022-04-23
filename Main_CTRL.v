@@ -30,8 +30,8 @@ module Main_CTRL (opcode,
     parameter NOR  = 6'd39;
     parameter SLT  = 6'd42;
     //I-type instruction, parameter indicates opcode
-    parameter BEQ   = 6'd3;
-    parameter BNE   = 6'd4;
+    parameter BEQ   = 6'd4;
+    parameter BNE   = 6'd5;
     parameter ADDI  = 6'd8;
     parameter ADDIU = 6'd9;
     parameter ANDI  = 6'd12;

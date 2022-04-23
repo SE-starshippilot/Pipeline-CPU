@@ -10,12 +10,14 @@ module MEM_WB_REG(CLOCK,
                   ALUResult_Out,
                   MemResult_Out,
                   WriteBackRegAddr_Out);
-    input CLOCK, RegWriteEN_In, Mem2RegSEL_In;
     input [31:0] ALUResult_In, MemResult_In;
     input [4:0] WriteBackRegAddr_In;
-    output reg RegWriteEN_Out, Mem2RegSEL_Out;
+    input [1:0] Mem2RegSEL_In;
+    input CLOCK, RegWriteEN_In;
     output reg [31:0] ALUResult_Out, MemResult_Out;
     output reg [4:0] WriteBackRegAddr_Out;
+    output reg [1:0] Mem2RegSEL_Out;
+    output reg RegWriteEN_Out;
     
     always @(posedge CLOCK) begin
         RegWriteEN_Out       <= RegWriteEN_In;

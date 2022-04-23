@@ -9,7 +9,8 @@ module Main_CTRL (opcode,
                   ALUSrc,
                   RegDst);
     input [5:0] opcode, func;
-    output reg RegWriteEN, Mem2RegSEL, MemWriteEN, Beq, Bne, RegDst;
+    output reg RegWriteEN, MemWriteEN, Beq, Bne;
+    output reg [1:0] Mem2RegSEL, RegDst;
     output reg [4:0] ALUCtrl, ALUSrc;
     
     //R type instruction, parameter indicates func
@@ -47,331 +48,168 @@ module Main_CTRL (opcode,
     parameter RTYPE = 6'd0;     //opcode = 000000, R-type
     
     always @(opcode, func) begin
+        RegWriteEN <= 1;        //Most instructions write back to a register
+        Mem2RegSEL <= 0;        //Most instructions use data fro ALU
+        MemWriteEN <= 0;        //Most instructions do not write to RAM
+        Beq        <= 0;
+        Bne        <= 0;
         case(opcode)
             RTYPE:
             begin
+                RegDst <= 1'b1;    //R-type always write back to Rd.
                 case(func)
                     SLL:
                     begin
-                        //change ALUCtrl with ALUSrc
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 7;
                         ALUSrc     <= 4;
-                        RegDst     <= 1;
                     end
                     SRL:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 8;
                         ALUSrc     <= 4;
-                        RegDst     <= 1;
                     end
                     SRA:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 9;
                         ALUSrc     <= 4;
-                        RegDst     <= 1;
                     end
                     SLLV:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 7;
                         ALUSrc     <= 3;
-                        RegDst     <= 1;
                     end
                     SRLV:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 8;
                         ALUSrc     <= 3;
-                        RegDst     <= 1;
                     end
                     SRAV:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 9;
                         ALUSrc     <= 3;
-                        RegDst     <= 1;
                     end
                     JR:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;//brahcn?
-                        Bne        <= 0;//brahcn?
-                        ALUCtrl    <= 0;
-                        ALUSrc     <= 0;//x
-                        RegDst     <= 1;
+                        RegWriteEN   <= 0;
                     end
                     ADD:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 0;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     ADDU:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 0;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     SUB:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 1;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     SUBU:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 1;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     AND:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 2;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     OR:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 3;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     XOR:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 4;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     NOR:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 5;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                     SLT:
                     begin
-                        RegWriteEN <= 1;
-                        Mem2RegSEL <= 0;
-                        MemWriteEN <= 0;
-                        Beq        <= 0;
-                        Bne        <= 0;
                         ALUCtrl    <= 6;
                         ALUSrc     <= 0;
-                        RegDst     <= 1;
                     end
                 endcase
             end
             BEQ:
             begin
                 RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
                 Beq        <= 1;
-                Bne        <= 0;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;
-                RegDst     <= 0;//x
             end
             BNE:
             begin
                 RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
                 Bne        <= 1;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 0;
-                RegDst     <= 0;//x
             end
             ADDI:
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 4;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 0;
-                ALUSrc     <= 2;
+                ALUSrc     <= 2; 
                 RegDst     <= 0;
             end
             ADDIU:
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 2;
                 RegDst     <= 0;
             end
             ANDI:
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 2;
                 ALUSrc     <= 1;
                 RegDst     <= 0;
             end
             ORI:
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 3;
                 ALUSrc     <= 1;
                 RegDst     <= 0;
             end
             XORI:
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 4;
                 ALUSrc     <= 1;
                 RegDst     <= 0;
             end
             LW:
             begin
-                RegWriteEN <= 1;
                 Mem2RegSEL <= 1;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 2;
-                RegDst     <= 0;
             end
             SW:
             begin
                 RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
                 MemWriteEN <= 1;
-                Beq        <= 0;
-                Bne        <= 0;
                 ALUCtrl    <= 0;
                 ALUSrc     <= 2;
-                RegDst     <= 0;//x
             end
             J:                      //not sure if correct
             begin
                 RegWriteEN <= 0;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
             end
             JAL:                    //not sure if correct
             begin
                 RegWriteEN <= 1;
-                Mem2RegSEL <= 0;
-                MemWriteEN <= 0;
-                Beq        <= 0;
-                Bne        <= 0;
-                ALUCtrl    <= 0;
-                ALUSrc     <= 0;
-                RegDst     <= 0;
-            end
-            STOP:                   //do we even need this?
-            begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 1;
-                MemWriteEN <= 1;
-                Beq        <= 1;
-                Bne        <= 1;
-                ALUCtrl    <= 63;
-                ALUSrc     <= 63;
-                RegDst     <= 0;
+                RegDst     <= 2;
+                Mem2RegSEL <= 2;
             end
             default:                   //do we even need this?
             begin
-                RegWriteEN <= 1;
-                Mem2RegSEL <= 1;
-                MemWriteEN <= 1;
-                Beq        <= 1;
-                Bne        <= 1;
                 ALUCtrl    <= 1;
                 ALUSrc     <= 1;
-                RegDst     <= 1;
             end
         endcase
     end

@@ -38,14 +38,14 @@ module CPU(CLOCK,
     RegAddr3_E, RegAddr3_M, RegAddr3_W,                                 //5-bit register address that writes data to register file
     Rt_D, Rd_D, Rt_E, Rd_E,                                             //5-bit register address of Rt, Rd from instruction
     Shamt_D, Shamt_E;                                                   //5-bit shift amount from instruction
+    wire [1:0] RegDstSEL_D,  RegDstSEL_E,                               //selection signal for write back register address
+    Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W;             //select signal between ALU result and memory read
     wire JSEL,                                                          //select signal for jump
     PCSrc_M,                                                            //select signal between branch and PC+4
     RegWriteEN_D, RegWriteEN_E, RegWriteEN_M, RegWriteEN_W,             //enable signal for register write
-    Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W,             //select signal between ALU result and memory read
     MemWriteEN_D, MemWriteEN_E, MemWriteEN_M,                           //enable signal for memory write
     Beq_D,     Beq_E,     Beq_M,                                        //select signal for beq
     Bne_D,     Bne_E,     Bne_M,                                        //select signal for bne
-    RegDstSEL_D,  RegDstSEL_E,                                          //selection signal for write back register address
     ZeroFlag_E,   ZeroFlag_M;                                           //indicator for zero flag
     
     
@@ -84,7 +84,7 @@ module CPU(CLOCK,
 
     // ==  ==  ==  ==  == Stage3: Instruction Execution ==  ==  ==  ==  == 
     assign PCBranchAddr_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E;
-    Mux2_1#(5) regdstselction (Rt_E, Rd_E, RegDstSEL_E, RegAddr3_E);
+    Mux3_1#(5) regdstselction (Rt_E, Rd_E, 5'd31, RegDstSEL_E, RegAddr3_E);
     ALU_SRC alu_src(ALUSrc_E, RegReadData1_E, RegReadData2_E, Shamt_E, Imm_E, Op1, Op2);
     ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
     EX_MEM_REG ex_mem_reg(CLOCK,
@@ -99,7 +99,7 @@ module CPU(CLOCK,
                           RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W);
     
     // ==  ==  ==  ==  == Stage5: Write Back ==  ==  ==  ==  == 
-    Mux2_1#(32) wbdataselection(ALUOut_W, MemReadData_W, Mem2RegSEL_W, RegWriteData_W);
+    Mux3_1#(32) wbdataselection(ALUOut_W, MemReadData_W, 32'd31, Mem2RegSEL_W, RegWriteData_W);
     
     
 endmodule

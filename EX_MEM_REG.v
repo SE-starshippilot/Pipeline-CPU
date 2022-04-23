@@ -10,6 +10,7 @@ module EX_MEM_REG(CLOCK,
                   RegWBAddr_In,   //address register to be written back
                   PCBranch_In,
                   PCPlus4_In,
+
                   RegWriteEN_Out,
                   Mem2RegSEL_Out,
                   MemWriteEN_Out,

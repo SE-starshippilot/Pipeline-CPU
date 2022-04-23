@@ -9,6 +9,7 @@ module ID_EX_REG(CLOCK,
                  RegDstSEL_In,   //selection signal for determine target register address
                  RegData1_In,
                  RegData2_In,
+                 RSAddr_In,
                  RTAddr_In,
                  RDAddr_In,
                  Shamt_In,
@@ -24,6 +25,7 @@ module ID_EX_REG(CLOCK,
                  RegDstSEL_Out,
                  RegData1_Out,
                  RegData2_Out,
+                 RSAddr_Out,
                  RTAddr_Out,
                  RDAddr_Out,
                  Shamt_Out,
@@ -33,12 +35,12 @@ module ID_EX_REG(CLOCK,
     input CLOCK, RegWriteEN_In, MemWriteEN_In, Beq_In, Bne_In; 
     input [31:0] RegData1_In, RegData2_In, PCAddr_In;
     input [15:0] Imm_In;
-    input [4:0] RTAddr_In, RDAddr_In, Shamt_In, ALUCtrl_In, ALUSrc_In;
+    input [4:0] RSAddr_In, RTAddr_In, RDAddr_In, Shamt_In, ALUCtrl_In, ALUSrc_In;
     input [1:0]  Mem2RegSEL_In, RegDstSEL_In;
     output reg RegWriteEN_Out, MemWriteEN_Out, Beq_Out, Bne_Out;
     output reg [31:0] RegData1_Out, RegData2_Out, PCAddr_Out;
     output reg [15:0] Imm_Out;
-    output reg [4:0] RTAddr_Out, RDAddr_Out, Shamt_Out, ALUCtrl_Out, ALUSrc_Out;
+    output reg [4:0] RSAddr_Out, RTAddr_Out, RDAddr_Out, Shamt_Out, ALUCtrl_Out, ALUSrc_Out;
     output reg [1:0] Mem2RegSEL_Out, RegDstSEL_Out;
     always @(posedge CLOCK) begin
         RegWriteEN_Out <= RegWriteEN_In;
@@ -52,6 +54,7 @@ module ID_EX_REG(CLOCK,
         RegData1_Out   <= RegData1_In;
         RegData2_Out   <= RegData2_In;
         Shamt_Out      <= Shamt_In;
+        RSAddr_Out     <= RSAddr_In;
         RTAddr_Out     <= RTAddr_In;
         RDAddr_Out     <= RDAddr_In;
         Imm_Out        <= Imm_In;

@@ -12,6 +12,8 @@
 `include "MainMemory.v"
 `include "MEM_WB_REG.v"
 `include "InstructionRAM.v"
+`include "Hazard_Unit.v"
+`include "Forward_Unit.v"
 
 module CPU(CLOCK,
            RESET);
@@ -23,8 +25,8 @@ module CPU(CLOCK,
     PCBranchAddr_D, PC_F,                                               //32-bit PC address branched
     Inst_F, Inst_D,                                                     //32-bit instruction
     RegWriteData_W,                                                     //32-bit data to be written in the register file
-    RegReadData1_D, RegReadData1_E,                                     //32-bit data read from register file
-    RegReadData2_D, RegReadData2_E,                                     //32-bit data read from register file
+    RegReadData1_D, RegReadData1_E, Reg1DataForward,                    //32-bit data read from register file
+    RegReadData2_D, RegReadData2_E, Reg2DataForward,                    //32-bit data read from register file
     ALUOut_E, ALUOut_M, ALUOut_W,                                       //32-bit data from ALU
     MemWriteData_M,                                                     //32-bit data to be written in the memory
     MemReadData_M, MemReadData_W;                                       //32-bit data read from RAM
@@ -36,9 +38,10 @@ module CPU(CLOCK,
     ALUCtrl_D,    ALUCtrl_E,                                            //control signal for ALU operation
     ALUSrc_D,     ALUSrc_E,                                             //control signal for ALU operands
     RegAddr3_E, RegAddr3_M, RegAddr3_W,                                 //5-bit register address that writes data to register file
-    Rt_D, Rd_D, Rt_E, Rd_E,                                             //5-bit register address of Rt, Rd from instruction
+    Rs_D, Rs_E, Rt_D, Rd_D, Rt_E, Rd_E,                                 //5-bit register address of Rs, Rt, Rd from instruction
     Shamt_D, Shamt_E;                                                   //5-bit shift amount from instruction
     wire [1:0] RegDstSEL_D,  RegDstSEL_E,                               //selection signal for write back register address
+    ForwardReg1SEL, ForwardReg2SEL,                                     //select signal for reg data forwarding
     Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W;             //select signal between ALU result and memory read
     wire JSEL,                                                          //select signal for jump
     PCSrc_D,                                                            //select signal between branch and PC+4
@@ -51,6 +54,9 @@ module CPU(CLOCK,
     
     
     
+    // ==  ==  ==  ==  ==     Dealing with hazard     ==  ==  ==  ==  == 
+    Forward_Unit forward_unit(Rs_E, Rt_E, RegAddr3_M, RegAddr3_W, RegWriteEN_M, RegWriteEN_W, ForwardReg1SEL, ForwardReg2SEL);
+
     // ==  ==  ==  ==  == Stage1: Instruction Fetch ==  ==  ==  ==  == 
     assign Opcode_F = Inst_F[31:26];
     assign Func_F = Inst_F[5:0];
@@ -70,12 +76,13 @@ module CPU(CLOCK,
     assign Func_D     = Inst_D[5:0];
     assign RegAddr1_D = Inst_D[25:21];
     assign RegAddr2_D = Inst_D[20:16];
+    assign Rs_D       = Inst_D[25:21];
     assign Rt_D       = Inst_D[20:16];
     assign Rd_D       = Inst_D[15:11];
     assign Shamt_D    = Inst_D[10:6];
     assign Imm_D      = Inst_D[15:0];
-    assign #2 PCSrc_D    = (Beq_D & (RegReadData1_D == RegReadData2_D)) | (Bne_D & (RegReadData2_D != RegReadData2_D));
-    assign #2 PCBranchAddr_D = ({{16{Imm_D[15]}}, Imm_D<< 2} ) + PCPlus4_D - 4;
+    assign PCSrc_D    = (Beq_D & (RegReadData1_D == RegReadData2_D)) | (Bne_D & (RegReadData2_D != RegReadData2_D));
+    assign PCBranchAddr_D = ({{16{Imm_D[15]}}, Imm_D<< 2} ) + PCPlus4_D - 4;
     Register_File register_file(CLOCK, RESET, 
                                 RegAddr1_D, RegAddr2_D, RegAddr3_W, RegWriteData_W, RegWriteEN_W,
                                 RegReadData1_D, RegReadData2_D);
@@ -83,15 +90,17 @@ module CPU(CLOCK,
                         RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D);
     
     ID_EX_REG id_ex_reg(CLOCK, 
-                        RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D, RegReadData1_D, RegReadData2_D, Rt_D, Rd_D, Shamt_D, Imm_D, PCPlus4_D,
-                        RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
+                        RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D, RegReadData1_D, RegReadData2_D, Rs_D, Rt_D, Rd_D, Shamt_D, Imm_D, PCPlus4_D,
+                        RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rs_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
 
     // ==  ==  ==  ==  == Stage3: Instruction Execution ==  ==  ==  ==  == 
     Mux3_1#(5) regdstselction (Rt_E, Rd_E, ReturnAddrReg, RegDstSEL_E, RegAddr3_E);
-    ALU_SRC alu_src(ALUSrc_E, RegReadData1_E, RegReadData2_E, Shamt_E, Imm_E, Op1, Op2);
+    Mux3_1#(32) reg1fwd(RegReadData1_E, ALUOut_M, RegWriteData_W, ForwardReg1SEL, Reg1DataForward);
+    Mux3_1#(32) reg2fwd(RegReadData2_E, ALUOut_M, RegWriteData_W, ForwardReg2SEL, Reg2DataForward);
+    ALU_SRC alu_src(ALUSrc_E, Reg1DataForward, Reg2DataForward, Shamt_E, Imm_E, Op1, Op2);
     ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
     EX_MEM_REG ex_mem_reg(CLOCK,
-                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, PCPlus4_E, 
+                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, Reg2DataForward, RegAddr3_E, PCPlus4_E, 
                           RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Beq_M, Bne_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCPlus4_M);
 
     // ==  ==  ==  ==  == Stage4: Memory Access ==  ==  ==  ==  == 

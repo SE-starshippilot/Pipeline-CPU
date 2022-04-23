@@ -19,7 +19,7 @@ module CPU(CLOCK,
     
     wire [31:0] PCJumpAddr,                                             //32-bit PC address for jumping
     PCBranched, PCJumped,                                               //32-bit PC address considering the jumping and branching
-    PCPlus4_F, PCPlus4_D, PCPlus4_E,                                    //32-bit PC address + 4
+    PCPlus4_F, PCPlus4_D, PCPlus4_E, PCPlus4_M, PCPlus4_W,              //32-bit PC address + 4
     PCBranchAddr_E, PCBranchAddr_M, PC_F,                               //32-bit PC address branched
     Inst_F, Inst_D,                                                     //32-bit instruction
     RegWriteData_W,                                                     //32-bit data to be written in the register file
@@ -38,14 +38,14 @@ module CPU(CLOCK,
     RegAddr3_E, RegAddr3_M, RegAddr3_W,                                 //5-bit register address that writes data to register file
     Rt_D, Rd_D, Rt_E, Rd_E,                                             //5-bit register address of Rt, Rd from instruction
     Shamt_D, Shamt_E;                                                   //5-bit shift amount from instruction
+    wire [1:0] RegDstSEL_D,  RegDstSEL_E,                               //selection signal for write back register address
+    Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W;             //select signal between ALU result and memory read
     wire JSEL,                                                          //select signal for jump
     PCSrc_M,                                                            //select signal between branch and PC+4
     RegWriteEN_D, RegWriteEN_E, RegWriteEN_M, RegWriteEN_W,             //enable signal for register write
-    Mem2RegSEL_D, Mem2RegSEL_E, Mem2RegSEL_M, Mem2RegSEL_W,             //select signal between ALU result and memory read
     MemWriteEN_D, MemWriteEN_E, MemWriteEN_M,                           //enable signal for memory write
     Beq_D,     Beq_E,     Beq_M,                                        //select signal for beq
     Bne_D,     Bne_E,     Bne_M,                                        //select signal for bne
-    RegDstSEL_D,  RegDstSEL_E,                                          //selection signal for write back register address
     ZeroFlag_E,   ZeroFlag_M;                                           //indicator for zero flag
     
     
@@ -84,22 +84,22 @@ module CPU(CLOCK,
 
     // ==  ==  ==  ==  == Stage3: Instruction Execution ==  ==  ==  ==  == 
     assign PCBranchAddr_E = ({{16{Imm_E[15]}}, Imm_E} << 2) + PCPlus4_E;
-    Mux2_1#(5) regdstselction (Rt_E, Rd_E, RegDstSEL_E, RegAddr3_E);
+    Mux3_1#(5) regdstselction (Rt_E, Rd_E, 5'd31, RegDstSEL_E, RegAddr3_E);
     ALU_SRC alu_src(ALUSrc_E, RegReadData1_E, RegReadData2_E, Shamt_E, Imm_E, Op1, Op2);
     ALU alu(ALUCtrl_E, Op1, Op2, ALUOut_E, ZeroFlag_E);
     EX_MEM_REG ex_mem_reg(CLOCK,
-                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, PCBranchAddr_E, 
-                          RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Beq_M, Bne_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCBranchAddr_M);
+                          RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ZeroFlag_E, ALUOut_E, RegReadData2_E, RegAddr3_E, PCBranchAddr_E, PCPlus4_E, 
+                          RegWriteEN_M, Mem2RegSEL_M, MemWriteEN_M, Beq_M, Bne_M, ZeroFlag_M, ALUOut_M, MemWriteData_M, RegAddr3_M, PCBranchAddr_M, PCPlus4_M);
 
     // ==  ==  ==  ==  == Stage4: Memory Access ==  ==  ==  ==  == 
     assign PCSrc_M = (Beq_M & ZeroFlag_M) | (Bne_M & !(ZeroFlag_M));
     MainMemory mainmemory(CLOCK, RESET, MemWriteEN_M, ALUOut_M>>2,  MemWriteData_M,  MemReadData_M);
     MEM_WB_REG mem_wb_reg(CLOCK,
-                          RegWriteEN_M, Mem2RegSEL_M, ALUOut_M, MemReadData_M, RegAddr3_M,
-                          RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W);
+                          RegWriteEN_M, Mem2RegSEL_M, ALUOut_M, MemReadData_M, RegAddr3_M,PCPlus4_M,
+                          RegWriteEN_W, Mem2RegSEL_W, ALUOut_W, MemReadData_W, RegAddr3_W,PCPlus4_W);
     
     // ==  ==  ==  ==  == Stage5: Write Back ==  ==  ==  ==  == 
-    Mux2_1#(32) wbdataselection(ALUOut_W, MemReadData_W, Mem2RegSEL_W, RegWriteData_W);
+    Mux3_1#(32) wbdataselection(ALUOut_W, MemReadData_W, PCPlus4_W, Mem2RegSEL_W, RegWriteData_W);
     
     
 endmodule

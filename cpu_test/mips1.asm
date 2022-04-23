@@ -17,7 +17,7 @@ slt $t4, $v0, $v1 # 1 in $t4
 sll $t5, $t0, 3 # 32'hfffffff8  in $t5
 sllv $t6, $t0, $a2  #32'hfffffff0 in $t6
 srl $t7, $t0, 3  # 32'h1fffffff in $t7
-srlv $s1, $t0, $a2 # 32'h0fffffff in $t8
+srlv $s1, $t0, $a2 # 32'h0fffffff in $t8 [why t8?]
 sra $s2, $t5, 2 # 32'hfffffffe in $s2
 srav $s3, $t5, $v0 # 32'hfffffffc in $s3
 and $s4, $t1, $t2 # 4 in $s4

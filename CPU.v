@@ -12,7 +12,7 @@
 `include "MainMemory.v"
 `include "MEM_WB_REG.v"
 `include "InstructionRAM.v"
-`include "Hazard_Unit.v"
+`include "Hazard_Detect.v"
 `include "Forward_Unit.v"
 
 module CPU(CLOCK,
@@ -49,6 +49,7 @@ module CPU(CLOCK,
     MemWriteEN_D, MemWriteEN_E, MemWriteEN_M,                           //enable signal for memory write
     Beq_D,     Beq_E,     Beq_M,                                        //select signal for beq
     Bne_D,     Bne_E,     Bne_M,                                        //select signal for bne
+    Stall_F, Stall_D, Flush_E,                                           //stalling and flushing signals
     ZeroFlag_E,   ZeroFlag_M;                                           //indicator for zero flag
     localparam ReturnAddrReg = 5'd31;                                   //Address of $ra
     
@@ -56,6 +57,7 @@ module CPU(CLOCK,
     
     // ==  ==  ==  ==  ==     Dealing with hazard     ==  ==  ==  ==  == 
     Forward_Unit forward_unit(Rs_E, Rt_E, RegAddr3_M, RegAddr3_W, RegWriteEN_M, RegWriteEN_W, ForwardReg1SEL, ForwardReg2SEL);
+    Hazard_Detect hazard_detect(Rs_D, Rt_D, Rt_E, Mem2RegSEL_E, Stall_F, Stall_D, Flush_E);
 
     // ==  ==  ==  ==  == Stage1: Instruction Fetch ==  ==  ==  ==  == 
     assign Opcode_F = Inst_F[31:26];
@@ -64,10 +66,10 @@ module CPU(CLOCK,
     Mux2_1 #(32) branch_sel(PCPlus4_F, PCBranchAddr_D, PCSrc_D, PCBranched);
     Jump_CTRL jump_ctrl(Opcode_F, Func_F, JSEL);
     Mux2_1 #(32) jump_sel(PCBranched, PCJumpAddr, JSEL, PCJumped);
-    PC_REG pc_register(CLOCK, RESET, PCJumped, PC_F);
+    PC_REG pc_register(CLOCK, PCSrc_D, Stall_F, PCJumped, PC_F);
     ADDER  #(32) pc_adder(PC_F, 32'd4, PCPlus4_F);
     InstructionRAM instructionram(PC_F>>2, Inst_F);
-    IF_ID_REG if_id_reg(CLOCK, PCSrc_D,
+    IF_ID_REG if_id_reg(CLOCK, PCSrc_D, STALL_D,
                         Inst_F, PCPlus4_F, 
                         Inst_D, PCPlus4_D);
     
@@ -81,7 +83,7 @@ module CPU(CLOCK,
     assign Rd_D       = Inst_D[15:11];
     assign Shamt_D    = Inst_D[10:6];
     assign Imm_D      = Inst_D[15:0];
-    assign PCSrc_D    = (Beq_D & (RegReadData1_D == RegReadData2_D)) | (Bne_D & (RegReadData2_D != RegReadData2_D));
+    assign PCSrc_D    = ((Beq_D & (RegReadData1_D == RegReadData2_D) || Bne_D & (RegReadData1_D != RegReadData2_D))===1)? 1:0;
     assign PCBranchAddr_D = ({{16{Imm_D[15]}}, Imm_D<< 2} ) + PCPlus4_D - 4;
     Register_File register_file(CLOCK, RESET, 
                                 RegAddr1_D, RegAddr2_D, RegAddr3_W, RegWriteData_W, RegWriteEN_W,
@@ -89,7 +91,7 @@ module CPU(CLOCK,
     Main_CTRL main_ctrl(Opcode_D, Func_D, 
                         RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D);
     
-    ID_EX_REG id_ex_reg(CLOCK, 
+    ID_EX_REG id_ex_reg(CLOCK, Flush_E | PCSrc_D, 
                         RegWriteEN_D, Mem2RegSEL_D, MemWriteEN_D, Beq_D, Bne_D, ALUCtrl_D, ALUSrc_D, RegDstSEL_D, RegReadData1_D, RegReadData2_D, Rs_D, Rt_D, Rd_D, Shamt_D, Imm_D, PCPlus4_D,
                         RegWriteEN_E, Mem2RegSEL_E, MemWriteEN_E, Beq_E, Bne_E, ALUCtrl_E, ALUSrc_E, RegDstSEL_E, RegReadData1_E, RegReadData2_E, Rs_E, Rt_E, Rd_E, Shamt_E, Imm_E, PCPlus4_E);
 

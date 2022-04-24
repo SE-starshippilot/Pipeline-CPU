@@ -29,3 +29,23 @@ module Forward_Unit(
         end
     end
 endmodule
+
+module Forward_Unit2(
+   RsAddr_D,
+   RtAddr_D,
+   RegDstAddr_M,
+   RegWriteEN_M,
+   Fwd1AddrSEL,
+   Fwd2AddrSEL
+);
+    input [4:0] RsAddr_D, RtAddr_D, RegDstAddr_M;
+    input RegWriteEN_M;
+    output reg Fwd1AddrSEL, Fwd2AddrSEL;
+
+    always @(*) begin
+        Fwd1AddrSEL <= 0;
+        Fwd2AddrSEL <= 0;
+        if (RsAddr_D != 0 && (RsAddr_D == RegDstAddr_M) && RegWriteEN_M) Fwd1AddrSEL <= 1;
+        if (RtAddr_D != 0 && (RtAddr_D == RegDstAddr_M) && RegWriteEN_M) Fwd1AddrSEL <= 1;
+    end
+endmodule

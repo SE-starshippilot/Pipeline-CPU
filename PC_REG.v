@@ -1,19 +1,19 @@
-module PC_REG(CLOCK, RESET, raw_addr, InstRAM_addr);
-input CLOCK, RESET;
-input [31:0] raw_addr;
-output reg [31:0] InstRAM_addr;
+module PC_REG(CLOCK, RESET, STALL, PC_In, PC_Out);
+input CLOCK, RESET, STALL;
+input [31:0] PC_In;
+output reg [31:0] PC_Out;
 
 task reset;
     begin
-        InstRAM_addr <= 32'b0;
+        PC_Out <= 32'b0;
     end
 endtask
 
 initial reset;
 
-always @ (posedge RESET) reset;
+// always @ (posedge RESET) reset;
 
 always @ (posedge CLOCK) begin
-    InstRAM_addr <= raw_addr;
+    if (STALL != 1 || STALL == 1'bx) PC_Out <= PC_In;
 end
 endmodule

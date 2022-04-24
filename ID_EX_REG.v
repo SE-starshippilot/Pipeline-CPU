@@ -1,4 +1,5 @@
 module ID_EX_REG(CLOCK,
+                 RESET,
                  RegWriteEN_In,  //enable signal for register write
                  Mem2RegSEL_In,  //select signal between ALU result and memory output
                  MemWriteEN_In,  //enable signal for memory write
@@ -32,7 +33,7 @@ module ID_EX_REG(CLOCK,
                  Imm_Out,
                  PCAddr_Out);
     
-    input CLOCK, RegWriteEN_In, MemWriteEN_In, Beq_In, Bne_In; 
+    input CLOCK, RESET,RegWriteEN_In, MemWriteEN_In, Beq_In, Bne_In; 
     input [31:0] RegData1_In, RegData2_In, PCAddr_In;
     input [15:0] Imm_In;
     input [4:0] RSAddr_In, RTAddr_In, RDAddr_In, Shamt_In, ALUCtrl_In, ALUSrc_In;
@@ -42,6 +43,16 @@ module ID_EX_REG(CLOCK,
     output reg [15:0] Imm_Out;
     output reg [4:0] RSAddr_Out, RTAddr_Out, RDAddr_Out, Shamt_Out, ALUCtrl_Out, ALUSrc_Out;
     output reg [1:0] Mem2RegSEL_Out, RegDstSEL_Out;
+    // always @(posedge RESET) begin
+    //     RegWriteEN_Out <= 1'b0;
+    //     Mem2RegSEL_Out <= 1'b0;
+    //     MemWriteEN_Out <= 1'b0;
+    //     Beq_Out        <= 1'b0;
+    //     Bne_Out        <= 1'b0;
+    //     ALUCtrl_Out    <= 1'b0;
+    //     ALUSrc_Out     <= 1'b0;
+    //     RegDstSEL_Out  <= 1'b0;
+    // end
     always @(posedge CLOCK) begin
         RegWriteEN_Out <= RegWriteEN_In;
         Mem2RegSEL_Out <= Mem2RegSEL_In;

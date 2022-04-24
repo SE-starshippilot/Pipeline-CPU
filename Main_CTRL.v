@@ -49,7 +49,7 @@ module Main_CTRL (opcode,
     
     always @(opcode, func) begin
         RegWriteEN <= 1;        //Most instructions write back to a register
-        Mem2RegSEL <= 0;        //Most instructions use data fro ALU
+        Mem2RegSEL <= 0;        //Only LW loads register with memory data
         MemWriteEN <= 0;        //Most instructions do not write to RAM
         Beq        <= 0;
         Bne        <= 0;
@@ -213,6 +213,7 @@ module Main_CTRL (opcode,
                 ALUSrc     <= 1;
             end
         endcase
+        // #2;
     end
     
     

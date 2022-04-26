@@ -4,20 +4,21 @@
 `timescale 100fs/100fs
 module InstructionRAM
     (
-      input [31:0] FETCH_ADDRESS
+      input [31:0] Fetch_Addr
 
-    , output reg [31:0] DATA
+    , output reg [31:0] Instruction
     );
 
   // blockRamFile begin
-  reg [31:0] RAM [0:512-1];
+  reg  [31:0] RAM [0:512-1];
 
+  
   initial begin
     $readmemb("instructions.bin",RAM);
   end
 
-  always @(FETCH_ADDRESS) begin : InstructionRAM_blockRamFile
-      DATA <= RAM[FETCH_ADDRESS];
+  always @(Fetch_Addr) begin : InstructionRAM_blockRamFile
+      Instruction <= RAM[Fetch_Addr >> 2];
   end
 
 endmodule

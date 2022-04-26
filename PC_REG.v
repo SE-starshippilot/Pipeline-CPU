@@ -14,6 +14,11 @@ initial reset;
 // always @ (posedge RESET) reset;
 
 always @ (posedge CLOCK) begin
-    if (STALL != 1 || STALL == 1'bx) PC_Out <= PC_In;
-end
+    if (STALL != 1 || STALL == 1'bx) begin
+        if (RESET === 0) begin
+            #3 PC_Out <= PC_In;
+        end else
+            PC_Out <= 32'hffff_fffc;
+        end
+    end
 endmodule

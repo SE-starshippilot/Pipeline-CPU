@@ -5,11 +5,12 @@ module Main_CTRL (opcode,
                   MemWriteEN,
                   Beq,
                   Bne,
+                  Jr,
                   ALUCtrl,
                   ALUSrc,
                   RegDst);
     input [5:0] opcode, func;
-    output reg RegWriteEN, MemWriteEN, Beq, Bne;
+    output reg RegWriteEN, MemWriteEN, Beq, Bne, Jr;
     output reg [1:0] Mem2RegSEL, RegDst;
     output reg [4:0] ALUCtrl, ALUSrc;
     
@@ -53,6 +54,7 @@ module Main_CTRL (opcode,
         MemWriteEN <= 0;        //Most instructions do not write to RAM
         Beq        <= 0;
         Bne        <= 0;
+        Jr         <= 0;
         case(opcode)
             RTYPE:
             begin
@@ -91,6 +93,8 @@ module Main_CTRL (opcode,
                     JR:
                     begin
                         RegWriteEN   <= 0;
+                        Jr           <= 1;
+                        RegDst       <= 2;
                     end
                     ADD:
                     begin
@@ -197,11 +201,11 @@ module Main_CTRL (opcode,
                 ALUCtrl    <= 0;
                 ALUSrc     <= 2;
             end
-            J:                      //not sure if correct
+            J:                     
             begin
                 RegWriteEN <= 0;
             end
-            JAL:                    //not sure if correct
+            JAL:                    
             begin
                 RegWriteEN <= 1;
                 RegDst     <= 2;

@@ -7,7 +7,7 @@ module Jump_CTRL (
     parameter JAL = 6'b000011;
     parameter JR  = 6'b001000;
     input [5:0] opcode, func;
-    output JSEL;
+    output [1:0] JSEL;
 
-    assign JSEL = (opcode == J || opcode == JAL || opcode == 6'b0 && func == JR)? 1:0;
+    assign JSEL = (opcode === 6'b0 && func === JR)? 2: (opcode === J || opcode === JAL )? 1:0;
 endmodule

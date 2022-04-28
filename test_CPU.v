@@ -63,6 +63,8 @@ module test_CPU();
             $fdisplay(Signal_FHANDLER, "ID-Branch    :\tBranch?   :%-32b\tBranchAddr     :%-32d\tReg1Data    :%-32d\tREg2Data      :%-10d", cpu.PCSrc_D,cpu.PCBranchAddr_D, cpu.RegReadData1_D, cpu.RegReadData2_D);
             $fdisplay(Signal_FHANDLER, "ID-JumpAddr  :\tOutput    :%-32d\tPCHeader       :%-32b\tExtended    :%-32d\t", cpu.PCJumpAddr_D, cpu.PCPlus4_D[31:28], cpu.Inst_D[25:0]<< 2);
             $fdisplay(Signal_FHANDLER, "ID-Main_CTRL :\tOpcode_D  :%-32b\tFunc_D         :%-32b\tRegWrtEN_D  :%-32d\tMem2RegSEL_D  :%-10d\tMemWrtEN  :%-10d\tBeq_D    :%-10d\tBne_D      :%-10d\tALUCtrl_D:%-5d\tALUSrc_D:%-5d\tRegDstSEL_D:%-5d\n", cpu.Opcode_D, cpu.Func_D, cpu.RegWriteEN_D, cpu.Mem2RegSEL_D, cpu.MemWriteEN_D, cpu.Beq_D, cpu.Bne_D, cpu.ALUCtrl_D, cpu.ALUSrc_D, cpu.RegDstSEL_D);
+            // $fdisplay(Signal_FHANDLER, "ID-CTRLS     :\tRESET     :%-32b\tRegWriteEN     :%-32b\tMem2RegSEL  :%-32d\tMemWriteEN    :%-10d\tBeq       :%-10d\tBne      :%-10d\tALUCtrl    :%-10d\tALUSrc   :%-5d\tRegDst  :%-5d", cpu.Flush_E | cpu.PCSrc_D, cpu.RegWriteEN_D_Ctrl, cpu.Mem2RegSEL_D_Ctrl, cpu.MemWriteEN_D_Ctrl, cpu.Beq_D_Ctrl, cpu.Bne_D_Ctrl, cpu.ALUCtrl_D_Ctrl, cpu.ALUSrc_D_Ctrl, cpu.RegDstSEL_D_Ctrl);
+            // $fdisplay(Signal_FHANDLER, "ID-CTRLS     :\tRESET     :%-32b\tRegWriteEN     :%-32b\tMem2RegSEL  :%-32d\tMemWriteEN    :%-10d\tBeq       :%-10d\tBne      :%-10d\tALUCtrl    :%-10d\tALUSrc   :%-5d\tRegDst  :%-5d\tRegWriteEN :%-5d", cpu.Flush_E | cpu.PCSrc_D, cpu.RegWriteEN_D, cpu.Mem2RegSEL_D, cpu.MemWriteEN_D, cpu.Beq_D, cpu.Bne_D, cpu.ALUCtrl_D, cpu.ALUSrc_D, cpu.RegDstSEL_D,cpu.RegWriteEN_D_Ctrl, cpu.Mem2RegSEL_D_Ctrl, cpu.MemWriteEN_D_Ctrl, cpu.Beq_D_Ctrl, cpu.Bne_D_Ctrl, cpu.ALUCtrl_D_Ctrl, cpu.ALUSrc_D_Ctrl, cpu.RegDstSEL_D_Ctrl);
             $fdisplay(Signal_FHANDLER, "ID-EX-REG    :\tflush?    :%-32b\n", cpu.id_ex_reg.RESET);
             
             $fdisplay(Signal_FHANDLER, "EX-RegDstSEL :\tRegAddr3_E:%-32d\tRtAddr_E       :%-32d\tRdAddr_E    :%-32d\tRegDstSEL_E   :%-10d", cpu.RegAddr3_E, cpu.Rt_E, cpu.Rd_E, cpu.RegDstSEL_E);
@@ -87,7 +89,13 @@ module test_CPU();
     endtask
 
     initial begin
-        $monitor("[CC %-3d] Branch?:%1b, Beq?:%1b, Bne:1b, R1:%3d, R2%3d", ClockCycleCount, cpu.PCSrc_D, cpu.Beq_D, cpu.Bne_D, cpu.RegReadData1_D, cpu.RegReadData2_D);
+        // $monitor("%t[CC%-4d] RESET:%1d, Mem2RegSEL:D:%10d, D-S:%10d, E:%10d, M:%10d, W:%10d", $time, ClockCycleCount, cpu.id_ctrl_mux.RESET,  cpu.Mem2RegSEL_D, cpu.Mem2RegSEL_D_Ctrl, cpu.Mem2RegSEL_E, cpu.Mem2RegSEL_M, cpu.Mem2RegSEL_W);
+        // $monitor("[%-4t/CC%-4d]\tSEL:%-10d\tBeq_D:%-10d\tBne_D :%-10d\tRegReadData1_D:%-10d\tRegReadData2_D:%-10d", $time, ClockCycleCount, cpu.PCSrc_D, cpu.Beq_D, cpu.Bne_D, cpu.RegReadData1_D, cpu.RegReadData2_D);
+        // $monitor("[%-4t/CC%-4d]\tSEL:%-10d\tBeq_D:%-10d\tBne_D :%-10d\tRegReadData1_D:%-10d\tRegReadData2_D:%-10d", $time, ClockCycleCount, cpu.PCSrc_D, cpu.Beq_D, cpu.Bne_D, cpu.RegReadData1_D, cpu.RegReadData2_D);
+        // $monitor("[%-4t/CC%-4d]\t+4:%-10d\tBranch:%-10d\tSEL :%-10d\tOut:%-10d", $time, ClockCycleCount, cpu.PCPlus4_F, cpu.PCBranchAddr_D, cpu.PCSrc_D, cpu.PCBranched);
+        // $monitor("[%-4t/CC%-4d]\tOut:%-32d\In:%-32d\tGeneration of PC+4:%-10d\tGeneration of Branch:%-32d", $time, ClockCycleCount, cpu.PC_F, cpu.PCJumped, cpu.PCPlus4_F, cpu.PCBranchAddr_D);
+        $monitor("[%-4t/CC%-4d]\tOut:%-10d\tJumped:%-10d\tBranched:%-10d\t+4:%-10d\tBranchAddr:%-10d\tBranchSEL:%-10d\tJumpAddr:%-10d\tJumpRegAddr:%-10d\tJSEL:%-10d"
+                        , $time, ClockCycleCount, cpu.PC_F, cpu.PCJumped, cpu.PCBranched, cpu.PCPlus4_F, cpu.PCBranchAddr_D, cpu.PCSrc_D, cpu.PCJumpAddr_D, cpu.RegReadData1_D,cpu.JSEL);
         Signal_FHANDLER = $fopen(Signal_FNAME, "w");
         Register_FHANDLER = $fopen(Register_FNAME, "w");
         RAM_FHANDLER = $fopen(RAM_FNAME, "w");

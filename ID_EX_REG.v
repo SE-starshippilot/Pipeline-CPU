@@ -43,25 +43,27 @@ module ID_EX_REG(CLOCK,
     output reg [15:0] Imm_Out;
     output reg [4:0] RSAddr_Out, RTAddr_Out, RDAddr_Out, Shamt_Out, ALUCtrl_Out, ALUSrc_Out;
     output reg [1:0] Mem2RegSEL_Out, RegDstSEL_Out;
-    // always @(posedge RESET) begin
-    //     RegWriteEN_Out <= 1'b0;
-    //     Mem2RegSEL_Out <= 1'b0;
-    //     MemWriteEN_Out <= 1'b0;
-    //     Beq_Out        <= 1'b0;
-    //     Bne_Out        <= 1'b0;
-    //     ALUCtrl_Out    <= 1'b0;
-    //     ALUSrc_Out     <= 1'b0;
-    //     RegDstSEL_Out  <= 1'b0;
-    // end
+ 
     always @(posedge CLOCK) begin
-        RegWriteEN_Out <= RegWriteEN_In;
-        Mem2RegSEL_Out <= Mem2RegSEL_In;
-        MemWriteEN_Out <= MemWriteEN_In;
-        Beq_Out        <= Beq_In;
-        Bne_Out        <= Bne_In;
-        ALUCtrl_Out    <= ALUCtrl_In;
-        ALUSrc_Out     <= ALUSrc_In;
-        RegDstSEL_Out  <= RegDstSEL_In;
+        if (RESET === 1'b1) begin
+            RegWriteEN_Out <= 0;
+            Mem2RegSEL_Out <= 0;
+            MemWriteEN_Out <= 0;
+            Beq_Out        <= 0;
+            Bne_Out        <= 0;
+            ALUCtrl_Out    <= 0;
+            ALUSrc_Out     <= 0;
+            RegDstSEL_Out  <= 0;
+        end else begin
+            RegWriteEN_Out <= RegWriteEN_In;
+            Mem2RegSEL_Out <= Mem2RegSEL_In;
+            MemWriteEN_Out <= MemWriteEN_In;
+            Beq_Out        <= Beq_In;
+            Bne_Out        <= Bne_In;
+            ALUCtrl_Out    <= ALUCtrl_In;
+            ALUSrc_Out     <= ALUSrc_In;
+            RegDstSEL_Out  <= RegDstSEL_In;
+        end
         RegData1_Out   <= RegData1_In;
         RegData2_Out   <= RegData2_In;
         Shamt_Out      <= Shamt_In;

@@ -15,9 +15,7 @@ initial reset;
 
 always @ (posedge CLOCK) begin
     if (STALL !== 1 ) begin
-        if (RESET === 0) begin
-            #3 PC_Out <= PC_In;
-        end 
+        #3 PC_Out <= PC_In;
     end
     end
 endmodule

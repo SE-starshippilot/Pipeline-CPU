@@ -69,7 +69,7 @@ module CPU(CLOCK,
     PC_REG pc_register(CLOCK, 1'b0, Stall, PCJumped, PC_F);
     ADDER  #(32) pc_adder(PC_F, 32'd4, PCPlus4_F);
     InstructionRAM instructionram(PC_F, Inst_F);
-    IF_ID_REG if_id_reg(CLOCK, PCSrc_D, Stall,
+    IF_ID_REG if_id_reg(CLOCK, 1'b0, Stall,
                         Inst_F, PCPlus4_F, 
                         Inst_D, PCPlus4_D);
     

@@ -47,8 +47,8 @@ module test_CPU();
         begin
             $fdisplay(Signal_FHANDLER, "[CC %3d]\n", ClockCycleCount);
 
-            $fdisplay(Signal_FHANDLER, "Hz-Forwarding:\tFwd1SEL_D :%-32d\tFwd2SEL_D      :%-32d\tFwd1SEL_E   :%-32d\tFwd2SEL_E     :%-10d\tRs_D      :%-10d\tRt_D      :%-32d\tRs_E        :%-10d\tRt_E   :%-5d\tWBAdd_M  :%-5d\tWBAddr_W   :%-5d\tRegWrtEN_M:%-5d\tRegWrtEN_W:%-5d", cpu.Fwd1SEL_D, cpu.Fwd2SEL_D, cpu.Fwd1SEL_E, cpu.Fwd2SEL_E, cpu.Rs_D, cpu.Rt_D, cpu.Rs_E, cpu.Rt_E, cpu.RegAddr3_M, cpu.RegAddr3_W, cpu.RegWriteEN_M, cpu.RegWriteEN_W);
-            $fdisplay(Signal_FHANDLER, "Hz-Stalling  :\tStall     :%-32d\tRs_D           :%-32d\tRt_D        :%-32d\tRt_E          :%-10d\tWBAddr_E  :%-10d\tWBReg_M   :%-32d\tBranch      :%-10d\tRegW_E :%-5d\tRegW_M   :%-5d\tMem2REG    :%-5d", cpu.Stall, cpu.Rs_D, cpu.Rt_D, cpu.Rt_E, cpu.RegAddr3_E, cpu.RegAddr3_M, cpu.PCSrc_D, cpu.RegWriteEN_E, cpu.RegWriteEN_W, cpu.Mem2RegSEL_E);
+            $fdisplay(Signal_FHANDLER, "Hz-Forwarding:\tFwd1SEL_D :%-32d\tFwd2SEL_D      :%-32d\tFwd1SEL_E   :%-32d\tFwd2SEL_E     :%-10d\tRs_D      :%-10d\tRt_D      :%-32d\tRs_E        :%-10d\tRt_E   :%-5d\tWBAdd_M  :%-5d\tWBAddr_W   :%-5d\tRegWrtEN_M:%-5d\tMem2RegSEL_E:%-5d", cpu.Fwd1SEL_D, cpu.Fwd2SEL_D, cpu.Fwd1SEL_E, cpu.Fwd2SEL_E, cpu.Rs_D, cpu.Rt_D, cpu.Rs_E, cpu.Rt_E, cpu.RegAddr3_M, cpu.RegAddr3_W, cpu.RegWriteEN_M, cpu.Mem2RegSEL_E);
+            $fdisplay(Signal_FHANDLER, "Hz-Stalling  :\tStall     :%-32d\tRs_D           :%-32d\tRt_D        :%-32d\tRt_E          :%-10d\tWBAddr_E  :%-10d\tWBReg_M   :%-32d\tBeq         :%-10d\tBne    :%-5d\tRegW_E   :%-5d\tMem2Reg_E  :%-5d\tMem2REG_M :%-5d", cpu.Stall, cpu.Rs_D, cpu.Rt_D, cpu.Rt_E, cpu.RegAddr3_E, cpu.RegAddr3_M, cpu.Beq_D, cpu.Bne_D, cpu.RegWriteEN_E, cpu.Mem2RegSEL_E, cpu.Mem2RegSEL_M);
 
             $fdisplay(Signal_FHANDLER, "IF-Branch_SEL:\tPCBranched:%-32d\tPC+4           :%-32d\tBranch Addr :%-32d\tPCSrc_D       :%-10d", cpu.PCBranched, cpu.PCPlus4_F, cpu.PCBranchAddr_D, cpu.PCSrc_D);
             $fdisplay(Signal_FHANDLER, "IF-Jump_CTRL :\tJSEL      :%-32d\tOpcode_F       :%-32b\tFunc_F      :%-32b", cpu.JSEL, cpu.Opcode_D, cpu.Func_D);
@@ -62,7 +62,6 @@ module test_CPU();
             $fdisplay(Signal_FHANDLER, "ID-Reg_File  :\tRegAddr1_D:%-32d\tRegAddr2_D     :%-32d\tRegAddr3_W  :%-32d\tRegWrite      :%-10d\tWrtEN     :%-10d\tRegRead1 :%-10d\tRegRead2   :%-10d", cpu.RegAddr1_D, cpu.RegAddr2_D, cpu.RegAddr3_W, cpu.RegWriteData_W, cpu.RegWriteData_W, $signed(cpu.RegReadData1_D), $signed(cpu.RegReadData2_D));
             $fdisplay(Signal_FHANDLER, "ID-Branch1fwd:\tFwd1Data_D:%-32d\tfrom regfile   :%-32d\tfrom ALU    :%-32d\tfrom MEM      :%-10d\tSEL       :%-10d", cpu.Fwd1Data_D, cpu.RegReadData1_D, $signed(cpu.ALUOut_M), $signed(cpu.MemReadData_M), cpu.Fwd1SEL_D);
             $fdisplay(Signal_FHANDLER, "ID-Branch2fwd:\tFwd2Data_D:%-32d\tfrom regfile   :%-32d\tfrom ALU    :%-32d\tfrom MEM      :%-10d\tSEL       :%-10d", cpu.Fwd2Data_D, cpu.RegReadData2_D, $signed(cpu.ALUOut_M), $signed(cpu.MemReadData_M), cpu.Fwd2SEL_D);
-            $fdisplay(Signal_FHANDLER, "ID-Hazard    :\tStall     :%-32d\tRSAddr_D       :%-32d\tRTAddr_D    :%-10d\tRTAddr_E      :%-10d\tStallSEL  :%-10d", cpu.Stall, cpu.Rs_D, cpu.Rt_D, cpu.Rt_E, cpu.Mem2RegSEL_E);
             $fdisplay(Signal_FHANDLER, "ID-Branch    :\tBranch?   :%-32b\tBranchAddr     :%-32d\tReg1Data    :%-32d\tReg2Data      :%-10d", cpu.PCSrc_D,cpu.PCBranchAddr_D, cpu.RegReadData1_D, cpu.RegReadData2_D);
             $fdisplay(Signal_FHANDLER, "ID-JumpAddr  :\tOutput    :%-32d\tPCHeader       :%-32b\tExtended    :%-32d\t", cpu.PCJumpAddr_D, cpu.PCPlus4_D[31:28], cpu.Inst_D[25:0]<< 2);
             $fdisplay(Signal_FHANDLER, "ID-Main_CTRL :\tOpcode_D  :%-32b\tFunc_D         :%-32b\tRegWrtEN_D  :%-32d\tMem2RegSEL_D  :%-10d\tMemWrtEN  :%-10d\tBeq_D    :%-10d\tBne_D      :%-10d\tALUCtrl_D:%-5d\tALUSrc_D:%-5d\tRegDstSEL_D:%-5d", cpu.Opcode_D, cpu.Func_D, cpu.RegWriteEN_D, cpu.Mem2RegSEL_D, cpu.MemWriteEN_D, cpu.Beq_D, cpu.Bne_D, cpu.ALUCtrl_D, cpu.ALUSrc_D, cpu.RegDstSEL_D);
@@ -93,11 +92,8 @@ module test_CPU();
     endtask
 
     initial begin
-        // $monitor("[%-4t/CC%-4d]\tPCRegINPUT:%-10d\tPCRegOUTPUT:%-10d\tPCJumped:%-10d"
-        //                 , $time, ClockCycleCount,cpu.pc_register.PC_In,cpu.pc_register.PC_Out, cpu.PCJumped);
-        // $monitor("[CC %3d] \tForwarded1:%-10d\tForwarded2:%-10d\tfrom reg1:%-10dtfrom reg2:%-10d\tfrom MEM:%-10d\tFrom WB:%-10d\tSEL1:%-10d\tSEL2:%-10d", ClockCycleCount, cpu.Reg1DataForward, cpu.Reg2DataForward, cpu.RegReadData1_E,  cpu.RegReadData2_E, cpu.ALUOut_M, cpu.RegWriteData_W, cpu.ForwardReg1SEL, cpu.ForwardReg2SEL);
-        $monitor("[%-4t/CC %-4d] SEL:%-4d \t In:%-4d", $time, ClockCycleCount, cpu.PCSrc_D, cpu.PCJumped);
-        // $monitor("[CC %-4d] RegWriteEN:%-0b RegDstAddr:%-0d", ClockCycleCount, cpu.forward_unit.RegWriteEN_M, cpu.forward_unit.RegDstAddr_M);
+        $monitor("[%-4t/CC %-4d] PC In:%-4d\tPC Out:%-4d\tStall:%-0d", $time, ClockCycleCount, cpu.pc_register.PC_In, cpu.pc_register.PC_Out, cpu.Stall);
+        // $monitor("[%-4t/CC %-4d] \tStall:%-0d", $time, ClockCycleCount,cpu.Stall);
         Signal_FHANDLER = $fopen(Signal_FNAME, "w");
         Register_FHANDLER = $fopen(Register_FNAME, "w");
         RAM_FHANDLER = $fopen(RAM_FNAME, "w");

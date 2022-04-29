@@ -45,10 +45,10 @@ module Forward_Unit(
                     Fwd2AddrSEL_E <= 1;
             end
             if (RegWriteEN_W == 1 && RegDstAddr_W != 0) begin
-                if (RegDstAddr_W ==  RsAddr_D)
-                    Fwd1AddrSEL_D <= 2;
-                if (RegDstAddr_W == RtAddr_D)
-                    Fwd2AddrSEL_D <= 2;
+                if (RegDstAddr_W ==  RsAddr_E)
+                    Fwd1AddrSEL_E <= 2;
+                if (RegDstAddr_W == RtAddr_E)
+                    Fwd2AddrSEL_E <= 2;
             end
         end
     end

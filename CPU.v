@@ -61,11 +61,11 @@ module CPU(CLOCK,
     
     // ==  ==  ==  ==  ==     Dealing with hazard     ==  ==  ==  ==  == 
     Forward_Unit forward_unit(Stall, Rs_D, Rt_D, Rs_E, Rt_E, RegAddr3_E, RegAddr3_M, RegAddr3_W, RegWriteEN_E, RegWriteEN_M, RegWriteEN_W, Fwd1SEL_D, Fwd2SEL_D, Fwd1SEL_E, Fwd2SEL_E);
-    Hazard_Detect hazard_detect(Rs_D, Rt_D, Rt_E, RegAddr3_E, RegAddr3_M, Beq_D, Bne_D, RegWriteEN_E, Mem2RegSEL_E, Stall);
+    Hazard_Detect hazard_detect(Rs_D, Rt_D, Rt_E, RegAddr3_E, RegAddr3_M, Beq_D, Bne_D, RegWriteEN_E, Mem2RegSEL_E, Mem2RegSEL_M, Stall);
 
     // ==  ==  ==  ==  == Stage1: Instruction Fetch ==  ==  ==  ==  == 
     Mux2_1 #(32) branch_sel(PCPlus4_F, PCBranchAddr_D, PCSrc_D, PCBranched);
-    Mux3_1 #(32) jump_sel(PCBranched, PCJumpAddr_D, RegReadData1_D, JSEL, PCJumped);
+    Mux3_1 #(32) jump_sel(PCBranched, PCJumpAddr_D, Fwd1Data_D, JSEL, PCJumped);
     PC_REG pc_register(CLOCK, 1'b0, Stall, PCJumped, PC_F);
     ADDER  #(32) pc_adder(PC_F, 32'd4, PCPlus4_F);
     InstructionRAM instructionram(PC_F, Inst_F);

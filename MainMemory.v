@@ -22,7 +22,7 @@ module MainMemory
   end
 
   always @(posedge CLOCK) begin : DATA_blockRam
-    #5
+    #1
     DATA <= DATA_RAM[FETCH_ADDRESS];
     if (WRITE_EN) begin
       DATA_RAM[FETCH_ADDRESS] <= WRITE_DATA;

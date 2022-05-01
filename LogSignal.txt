@@ -1,0 +1,952 @@
+[CC   0]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :x         	Rt_D      :x                               	Rs_E        :x         	Rt_E   :x    	WBAdd_M  :x    	WBAddr_W   :x    	RegWrtEN_M:x    	RegDstDataSEL_E:x    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :x                               	Rt_D        :x                               	Rt_E          :x         	WBAddr_E  :31        	WBReg_M   :x                               	Beq         :x         	Bne    :x    	RegW_E   :x    	Mem2Reg_E  :x    	Mem2REG_M :x    
+IF-Branch_SEL:	PCBranched:4                               	PC+4           :4                               	Branch Addr :x                               	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :xxxxxx                          	Func_F      :xxxxxx                          
+IF-Jump_SEL  :	PCJumped  :4                               	PCBranched     :4                               	PCJumpAddr  :X                               	JumpRegAddr   :x         	JSEL      :0         
+IF-PC_REG    :	PC_out    :0                               	PC_in          :4                               	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :0                               	Fetched Inst   :00100000000010010000000000001100
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_out   :x                               	Instr_in  :00100000000010010000000000001100	PCPlus4_in:4                               
+
+ID-Instruct  :	Instruct  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ID-Decoded   :	RegAddr1_D:x                               	RegAddr2_D     :x                               	Rs_Addr     :x                               	Rt_Addr       :x         	Rd_Addr   :x         	Shamt_D  :x         	Imm_D      :x         	Opcode_D :xxxxxx	Func_D :xxxxxx
+ID-Reg_File  :	RegAddr1_D:x                               	RegAddr2_D     :x                               	RegAddr3_W  :x                               	RegWrite      :x         	WrtEN     :x         	RegRead1 :x         	RegRead2   :x         
+ID-Branch1fwd:	Fwd1Data_D:x                               	from regfile   :x                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:x                               	from regfile   :x                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :x                               	Reg1Data    :x                               	Reg2Data      :x         
+ID-JumpAddr  :	Output    :X                               	PCHeader       :xxxx                            	Extended    :X                               	
+ID-Main_CTRL :	Opcode_D  :xxxxxx                          	Func_D         :xxxxxx                          	RegWrtEN_D  :x                               	RegDstDataSEL_D  :x         	MemWrtEN  :x         	Beq_D    :x         	Bne_D      :x         	ALUCtrl_D:x    	ALUSrc_D:x    	RegDstAddrSEL_D:x    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:x                               
+EX-RegDstAddrSEL :	RegAddr3_E:31                              	RtAddr_E       :x                               	RdAddr_E    :x                               	RegDstAddrSEL_E   :x         
+EX-Forward1  :	Forwarded1:x                               	from reg       :x                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-Forward2  :	Forwarded2:x                               	from reg       :x                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-FWD Unit  :	RS Address:x                               	RT Address     :x                               	WB Address  :x                               	RegWrtEN_M    :x         	RegWEN_M  :x         	RegWEN_W :x         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :x                               	Op2            :x                               	ALUSrc_E    :x                               	RegRead1_E    :x         	RegRead2_E:x         	Shamt_E  :x         	Imm_E      :x         
+EX-ALU       :	ALUOut_E  :x                               	Flag_E         :x                               	ALUCtrl_E   :x                               	Op1           :x         	Op2       :x         
+
+MEM-Main Mem :	MemWrtEN_M:x                               	Index          :X                               	MemWrtData_M:x                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:x                               	ALUOut_W       :x                               	MemRedData_W:x                               	RegDstDataSEL_W  :x         
+WB-DataAddr  :	RegAddr3_W:x                               
+___________________________________________________________________________________________________
+[CC   1]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :9                               	Rs_E        :x         	Rt_E   :x    	WBAdd_M  :31   	WBAddr_W   :x    	RegWrtEN_M:x    	RegDstDataSEL_E:x    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :9                               	Rt_E          :x         	WBAddr_E  :31        	WBReg_M   :31                              	Beq         :0         	Bne    :0    	RegW_E   :x    	Mem2Reg_E  :x    	Mem2REG_M :x    
+IF-Branch_SEL:	PCBranched:8                               	PC+4           :8                               	Branch Addr :52                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :001100                          
+IF-Jump_SEL  :	PCJumped  :8                               	PCBranched     :8                               	PCJumpAddr  :2359344                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :4                               	PC_in          :8                               	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :1                               	Fetched Inst   :00100000000010101111111111111110
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000010010000000000001100	PCPlus4_out   :4                               	Instr_in  :00100000000010101111111111111110	PCPlus4_in:8                               
+
+ID-Instruct  :	Instruct  :00100000000010010000000000001100
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :9                               	Rs_Addr     :0                               	Rt_Addr       :9         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :12        	Opcode_D :001000	Func_D :001100
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :9                               	RegAddr3_W  :x                               	RegWrite      :x         	WrtEN     :x         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :52                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :2359344                         	PCHeader       :0000                            	Extended    :2359344                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :001100                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:x                               
+EX-RegDstAddrSEL :	RegAddr3_E:31                              	RtAddr_E       :x                               	RdAddr_E    :x                               	RegDstAddrSEL_E   :x         
+EX-Forward1  :	Forwarded1:x                               	from reg       :x                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-Forward2  :	Forwarded2:x                               	from reg       :x                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-FWD Unit  :	RS Address:x                               	RT Address     :x                               	WB Address  :31                              	RegWrtEN_M    :x         	RegWEN_M  :x         	RegWEN_W :x         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :x                               	Op2            :x                               	ALUSrc_E    :x                               	RegRead1_E    :x         	RegRead2_E:x         	Shamt_E  :x         	Imm_E      :x         
+EX-ALU       :	ALUOut_E  :x                               	Flag_E         :x                               	ALUCtrl_E   :x                               	Op1           :x         	Op2       :x         
+
+MEM-Main Mem :	MemWrtEN_M:x                               	Index          :X                               	MemWrtData_M:x                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:x                               	ALUOut_W       :x                               	MemRedData_W:x                               	RegDstDataSEL_W  :x         
+WB-DataAddr  :	RegAddr3_W:x                               
+___________________________________________________________________________________________________
+[CC   2]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :10                              	Rs_E        :0         	Rt_E   :9    	WBAdd_M  :31   	WBAddr_W   :31   	RegWrtEN_M:x    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :10                              	Rt_E          :9         	WBAddr_E  :9         	WBReg_M   :31                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :x    
+IF-Branch_SEL:	PCBranched:12                              	PC+4           :12                              	Branch Addr :0                               	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :111110                          
+IF-Jump_SEL  :	PCJumped  :12                              	PCBranched     :12                              	PCJumpAddr  :2883576                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :8                               	PC_in          :12                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :2                               	Fetched Inst   :00100000000010110000000000010111
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000010101111111111111110	PCPlus4_out   :8                               	Instr_in  :00100000000010110000000000010111	PCPlus4_in:12                              
+
+ID-Instruct  :	Instruct  :00100000000010101111111111111110
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :10                              	Rs_Addr     :0                               	Rt_Addr       :10        	Rd_Addr   :31        	Shamt_D  :31        	Imm_D      :65534     	Opcode_D :001000	Func_D :111110
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :10                              	RegAddr3_W  :31                              	RegWrite      :x         	WrtEN     :x         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :x                               	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :0                               	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :2883576                         	PCHeader       :0000                            	Extended    :2883576                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :111110                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:9                               	RtAddr_E       :9                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :x                               	From WB       :x         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :9                               	WB Address  :31                              	RegWrtEN_M    :31        	RegWEN_M  :x         	RegWEN_W :x         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :12                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :12        
+EX-ALU       :	ALUOut_E  :12                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :12        
+
+MEM-Main Mem :	MemWrtEN_M:x                               	Index          :X                               	MemWrtData_M:x                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:x                               	ALUOut_W       :x                               	MemRedData_W:x                               	RegDstDataSEL_W  :x         
+WB-DataAddr  :	RegAddr3_W:31                              
+___________________________________________________________________________________________________
+[CC   3]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :11                              	Rs_E        :0         	Rt_E   :10   	WBAdd_M  :9    	WBAddr_W   :31   	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :11                              	Rt_E          :10        	WBAddr_E  :10        	WBReg_M   :9                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:16                              	PC+4           :16                              	Branch Addr :104                             	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :010111                          
+IF-Jump_SEL  :	PCJumped  :16                              	PCBranched     :16                              	PCJumpAddr  :2883676                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :12                              	PC_in          :16                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :3                               	Fetched Inst   :00100000000000100000000000000000
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000010110000000000010111	PCPlus4_out   :12                              	Instr_in  :00100000000000100000000000000000	PCPlus4_in:16                              
+
+ID-Instruct  :	Instruct  :00100000000010110000000000010111
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :11                              	Rs_Addr     :0                               	Rt_Addr       :11        	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :23        	Opcode_D :001000	Func_D :010111
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :11                              	RegAddr3_W  :31                              	RegWrite      :x         	WrtEN     :x         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :12                              	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :12                              	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :104                             	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :2883676                         	PCHeader       :0000                            	Extended    :2883676                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :010111                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:10                              	RtAddr_E       :10                              	RdAddr_E    :31                              	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :12                              	From WB       :x         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :12                              	From WB       :x         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :10                              	WB Address  :9                               	RegWrtEN_M    :31        	RegWEN_M  :1         	RegWEN_W :x         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :-2                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :31        	Imm_E      :-2        
+EX-ALU       :	ALUOut_E  :-2                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :-2        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :3                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:x                               	ALUOut_W       :x                               	MemRedData_W:x                               	RegDstDataSEL_W  :x         
+WB-DataAddr  :	RegAddr3_W:31                              
+___________________________________________________________________________________________________
+[CC   4]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :2                               	Rs_E        :0         	Rt_E   :11   	WBAdd_M  :10   	WBAddr_W   :9    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :2                               	Rt_E          :11        	WBAddr_E  :11        	WBReg_M   :10                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:20                              	PC+4           :20                              	Branch Addr :16                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000000                          
+IF-Jump_SEL  :	PCJumped  :20                              	PCBranched     :20                              	PCJumpAddr  :524288                          	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :16                              	PC_in          :20                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :4                               	Fetched Inst   :00100000000000110000000000010011
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000000100000000000000000	PCPlus4_out   :16                              	Instr_in  :00100000000000110000000000010011	PCPlus4_in:20                              
+
+ID-Instruct  :	Instruct  :00100000000000100000000000000000
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :2                               	Rs_Addr     :0                               	Rt_Addr       :2         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :0         	Opcode_D :001000	Func_D :000000
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :2                               	RegAddr3_W  :9                               	RegWrite      :12        	WrtEN     :12        	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :-2                              	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :-2                              	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :16                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :524288                          	PCHeader       :0000                            	Extended    :524288                          	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000000                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:11                              	RtAddr_E       :11                              	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :-2                              	From WB       :12        	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :-2                              	From WB       :12        	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :11                              	WB Address  :10                              	RegWrtEN_M    :9         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :23                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :23        
+EX-ALU       :	ALUOut_E  :23                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :23        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :1073741823                      	MemWrtData_M:0                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:12                              	ALUOut_W       :12                              	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:9                               
+___________________________________________________________________________________________________
+[CC   5]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :3                               	Rs_E        :0         	Rt_E   :2    	WBAdd_M  :11   	WBAddr_W   :10   	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :3                               	Rt_E          :2         	WBAddr_E  :2         	WBReg_M   :11                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:24                              	PC+4           :24                              	Branch Addr :96                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :010011                          
+IF-Jump_SEL  :	PCJumped  :24                              	PCBranched     :24                              	PCJumpAddr  :786508                          	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :20                              	PC_in          :24                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :5                               	Fetched Inst   :00100000000001000000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000000110000000000010011	PCPlus4_out   :20                              	Instr_in  :00100000000001000000000000000001	PCPlus4_in:24                              
+
+ID-Instruct  :	Instruct  :00100000000000110000000000010011
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :3                               	Rs_Addr     :0                               	Rt_Addr       :3         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :19        	Opcode_D :001000	Func_D :010011
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :3                               	RegAddr3_W  :10                              	RegWrite      :4294967294	WrtEN     :4294967294	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :23                              	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :23                              	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :96                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :786508                          	PCHeader       :0000                            	Extended    :786508                          	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :010011                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:2                               	RtAddr_E       :2                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :23                              	From WB       :-2        	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :23                              	From WB       :-2        	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :2                               	WB Address  :11                              	RegWrtEN_M    :10        	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :0                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :0         
+EX-ALU       :	ALUOut_E  :0                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :0         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :5                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:-2                              	ALUOut_W       :4294967294                      	MemRedData_W:x                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:10                              
+___________________________________________________________________________________________________
+[CC   6]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :4                               	Rs_E        :0         	Rt_E   :3    	WBAdd_M  :2    	WBAddr_W   :11   	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :4                               	Rt_E          :3         	WBAddr_E  :3         	WBReg_M   :2                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:28                              	PC+4           :28                              	Branch Addr :28                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :28                              	PCBranched     :28                              	PCJumpAddr  :1048580                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :24                              	PC_in          :28                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :6                               	Fetched Inst   :00100000000010001111111111111111
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001000000000000000001	PCPlus4_out   :24                              	Instr_in  :00100000000010001111111111111111	PCPlus4_in:28                              
+
+ID-Instruct  :	Instruct  :00100000000001000000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :4                               	Rs_Addr     :0                               	Rt_Addr       :4         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :4                               	RegAddr3_W  :11                              	RegWrite      :23        	WrtEN     :23        	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :28                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :1048580                         	PCHeader       :0000                            	Extended    :1048580                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:3                               	RtAddr_E       :3                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :0                               	From WB       :23        	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :0                               	From WB       :23        	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :3                               	WB Address  :2                               	RegWrtEN_M    :11        	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :19                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :19        
+EX-ALU       :	ALUOut_E  :19                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :19        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:23                              	ALUOut_W       :23                              	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:11                              
+___________________________________________________________________________________________________
+[CC   7]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :8                               	Rs_E        :0         	Rt_E   :4    	WBAdd_M  :3    	WBAddr_W   :2    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :8                               	Rt_E          :4         	WBAddr_E  :4         	WBReg_M   :3                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:32                              	PC+4           :32                              	Branch Addr :24                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :111111                          
+IF-Jump_SEL  :	PCJumped  :32                              	PCBranched     :32                              	PCJumpAddr  :2359292                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :28                              	PC_in          :32                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :7                               	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000010001111111111111111	PCPlus4_out   :28                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:32                              
+
+ID-Instruct  :	Instruct  :00100000000010001111111111111111
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :8                               	Rs_Addr     :0                               	Rt_Addr       :8         	Rd_Addr   :31        	Shamt_D  :31        	Imm_D      :65535     	Opcode_D :001000	Func_D :111111
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :8                               	RegAddr3_W  :2                               	RegWrite      :0         	WrtEN     :0         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :19                              	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :19                              	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :24                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :2359292                         	PCHeader       :0000                            	Extended    :2359292                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :111111                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:4                               	RtAddr_E       :4                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :19                              	From WB       :0         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :19                              	From WB       :0         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :4                               	WB Address  :3                               	RegWrtEN_M    :2         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :4                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:0                               	ALUOut_W       :0                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:2                               
+___________________________________________________________________________________________________
+[CC   8]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :0         	Rt_E   :8    	WBAdd_M  :4    	WBAddr_W   :3    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :8         	WBAddr_E  :8         	WBReg_M   :4                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:36                              	PC+4           :36                              	Branch Addr :36                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :36                              	PCBranched     :36                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :32                              	PC_in          :36                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :8                               	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :32                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:36                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :3                               	RegWrite      :19        	WrtEN     :19        	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :36                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:8                               	RtAddr_E       :8                               	RdAddr_E    :31                              	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :19        	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :1                               	From WB       :19        	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :8                               	WB Address  :4                               	RegWrtEN_M    :3         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :-1                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :31        	Imm_E      :-1        
+EX-ALU       :	ALUOut_E  :-1                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :-1        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:19                              	ALUOut_W       :19                              	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:3                               
+___________________________________________________________________________________________________
+[CC   9]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :1                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :8    	WBAddr_W   :4    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :8                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:40                              	PC+4           :40                              	Branch Addr :40                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :40                              	PCBranched     :40                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :36                              	PC_in          :40                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :9                               	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :36                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:40                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :4                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :-1                              	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :0                               	from ALU    :-1                              	from MEM      :x         	SEL       :1         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :40                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :-1                              	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :-1                              	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :8                               	RegWrtEN_M    :4         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :1073741823                      	MemWrtData_M:0                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:4                               
+___________________________________________________________________________________________________
+[CC  10]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :2                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :1         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :6    	WBAddr_W   :8    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :6                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:44                              	PC+4           :44                              	Branch Addr :44                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :44                              	PCBranched     :44                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :40                              	PC_in          :44                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :10                              	Fetched Inst   :00100000000001010000000000000000
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :40                              	Instr_in  :00100000000001010000000000000000	PCPlus4_in:44                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :8                               	RegWrite      :4294967295	WrtEN     :4294967295	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :2         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :44                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :-1        	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :0                               	from MEM    :1                               	From WB       :-1        	SEL       :1         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :6                               	RegWrtEN_M    :8         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:-1                              	ALUOut_W       :4294967295                      	MemRedData_W:x                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:8                               
+___________________________________________________________________________________________________
+[CC  11]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :2         	Rs_D      :0         	Rt_D      :5                               	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :6    	WBAddr_W   :6    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :5                               	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :6                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:48                              	PC+4           :48                              	Branch Addr :44                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000000                          
+IF-Jump_SEL  :	PCJumped  :48                              	PCBranched     :48                              	PCJumpAddr  :1310720                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :44                              	PC_in          :48                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :11                              	Fetched Inst   :00100000010000100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001010000000000000000	PCPlus4_out   :44                              	Instr_in  :00100000010000100000000000000001	PCPlus4_in:48                              
+
+ID-Instruct  :	Instruct  :00100000000001010000000000000000
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :5                               	Rs_Addr     :0                               	Rt_Addr       :5         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :0         	Opcode_D :001000	Func_D :000000
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :5                               	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :44                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :1310720                         	PCHeader       :0000                            	Extended    :1310720                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000000                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :0                               	from MEM    :1                               	From WB       :1         	SEL       :2         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :6                               	RegWrtEN_M    :6         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  12]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :2         	Rt_D      :2                               	Rs_E        :0         	Rt_E   :5    	WBAdd_M  :6    	WBAddr_W   :6    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :2                               	Rt_D        :2                               	Rt_E          :5         	WBAddr_E  :5         	WBReg_M   :6                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:52                              	PC+4           :52                              	Branch Addr :52                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :52                              	PCBranched     :52                              	PCJumpAddr  :17301508                        	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :48                              	PC_in          :52                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :12                              	Fetched Inst   :00000001000001000100000000100010
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000010000100000000000000001	PCPlus4_out   :48                              	Instr_in  :00000001000001000100000000100010	PCPlus4_in:52                              
+
+ID-Instruct  :	Instruct  :00100000010000100000000000000001
+ID-Decoded   :	RegAddr1_D:2                               	RegAddr2_D     :2                               	Rs_Addr     :2                               	Rt_Addr       :2         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:2                               	RegAddr2_D     :2                               	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :52                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :17301508                        	PCHeader       :0000                            	Extended    :17301508                        	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:5                               	RtAddr_E       :5                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :1                               	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :5                               	WB Address  :6                               	RegWrtEN_M    :6         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :0                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :0         
+EX-ALU       :	ALUOut_E  :0                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :0         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  13]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :8         	Rt_D      :4                               	Rs_E        :2         	Rt_E   :2    	WBAdd_M  :5    	WBAddr_W   :6    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :8                               	Rt_D        :4                               	Rt_E          :2         	WBAddr_E  :2         	WBReg_M   :5                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:56                              	PC+4           :56                              	Branch Addr :188                             	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000000                          	Func_F      :100010                          
+IF-Jump_SEL  :	PCJumped  :56                              	PCBranched     :56                              	PCJumpAddr  :1114248                         	JumpRegAddr   :4294967295	JSEL      :0         
+IF-PC_REG    :	PC_out    :52                              	PC_in          :56                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :13                              	Fetched Inst   :00000000010000110010100000101010
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00000001000001000100000000100010	PCPlus4_out   :52                              	Instr_in  :00000000010000110010100000101010	PCPlus4_in:56                              
+
+ID-Instruct  :	Instruct  :00000001000001000100000000100010
+ID-Decoded   :	RegAddr1_D:8                               	RegAddr2_D     :4                               	Rs_Addr     :8                               	Rt_Addr       :4         	Rd_Addr   :8         	Shamt_D  :0         	Imm_D      :16418     	Opcode_D :000000	Func_D :100010
+ID-Reg_File  :	RegAddr1_D:8                               	RegAddr2_D     :4                               	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :-1        	RegRead2   :1         
+ID-Branch1fwd:	Fwd1Data_D:4294967295                      	from regfile   :4294967295                      	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :1                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :188                             	Reg1Data    :4294967295                      	Reg2Data      :1         
+ID-JumpAddr  :	Output    :1114248                         	PCHeader       :0000                            	Extended    :1114248                         	
+ID-Main_CTRL :	Opcode_D  :000000                          	Func_D         :100010                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:0    	RegDstAddrSEL_D:1    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:2                               	RtAddr_E       :2                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :0                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :0                               	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:2                               	RT Address     :2                               	WB Address  :5                               	RegWrtEN_M    :6         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  14]
+
+Hz-Forwarding:	Fwd1SEL_D :2                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :2         	Rt_D      :3                               	Rs_E        :8         	Rt_E   :4    	WBAdd_M  :2    	WBAddr_W   :5    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :2                               	Rt_D        :3                               	Rt_E          :4         	WBAddr_E  :8         	WBReg_M   :2                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:60                              	PC+4           :60                              	Branch Addr :41184                           	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000000                          	Func_F      :101010                          
+IF-Jump_SEL  :	PCJumped  :60                              	PCBranched     :60                              	PCJumpAddr  :17604776                        	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :56                              	PC_in          :60                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :14                              	Fetched Inst   :00010100101001001111111111111011
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00000000010000110010100000101010	PCPlus4_out   :56                              	Instr_in  :00010100101001001111111111111011	PCPlus4_in:60                              
+
+ID-Instruct  :	Instruct  :00000000010000110010100000101010
+ID-Decoded   :	RegAddr1_D:2                               	RegAddr2_D     :3                               	Rs_Addr     :2                               	Rt_Addr       :3         	Rd_Addr   :5         	Shamt_D  :0         	Imm_D      :10282     	Opcode_D :000000	Func_D :101010
+ID-Reg_File  :	RegAddr1_D:2                               	RegAddr2_D     :3                               	RegAddr3_W  :5                               	RegWrite      :0         	WrtEN     :0         	RegRead1 :0         	RegRead2   :19        
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :2         
+ID-Branch2fwd:	Fwd2Data_D:19                              	from regfile   :19                              	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :41184                           	Reg1Data    :0                               	Reg2Data      :19        
+ID-JumpAddr  :	Output    :17604776                        	PCHeader       :0000                            	Extended    :17604776                        	
+ID-Main_CTRL :	Opcode_D  :000000                          	Func_D         :101010                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:6    	ALUSrc_D:0    	RegDstAddrSEL_D:1    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:8                               	RtAddr_E       :4                               	RdAddr_E    :8                               	RegDstAddrSEL_E   :1         
+EX-Forward1  :	Forwarded1:-1                              	from reg       :-1                              	from MEM    :1                               	From WB       :0         	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :1                               	from MEM    :1                               	From WB       :0         	SEL       :0         
+EX-FWD Unit  :	RS Address:8                               	RT Address     :4                               	WB Address  :2                               	RegWrtEN_M    :5         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :-1                              	Op2            :1                               	ALUSrc_E    :0                               	RegRead1_E    :-1        	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :16418     
+EX-ALU       :	ALUOut_E  :-2                              	Flag_E         :0                               	ALUCtrl_E   :1                               	Op1           :-1        	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:0                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:0                               	ALUOut_W       :0                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:5                               
+___________________________________________________________________________________________________
+[CC  15]
+
+Hz-Forwarding:	Fwd1SEL_D :1                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :2                               	Fwd2SEL_E     :0         	Rs_D      :5         	Rt_D      :4                               	Rs_E        :2         	Rt_E   :3    	WBAdd_M  :8    	WBAddr_W   :2    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :5                               	Rt_D        :4                               	Rt_E          :3         	WBAddr_E  :5         	WBReg_M   :8                               	Beq         :0         	Bne    :1    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:64                              	PC+4           :64                              	Branch Addr :40                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000101                          	Func_F      :111011                          
+IF-Jump_SEL  :	PCJumped  :64                              	PCBranched     :64                              	PCJumpAddr  :43253740                        	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :60                              	PC_in          :64                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :15                              	Fetched Inst   :10101100000010000000000000001000
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00010100101001001111111111111011	PCPlus4_out   :60                              	Instr_in  :10101100000010000000000000001000	PCPlus4_in:64                              
+
+ID-Instruct  :	Instruct  :00010100101001001111111111111011
+ID-Decoded   :	RegAddr1_D:5                               	RegAddr2_D     :4                               	Rs_Addr     :5                               	Rt_Addr       :4         	Rd_Addr   :31        	Shamt_D  :31        	Imm_D      :65531     	Opcode_D :000101	Func_D :111011
+ID-Reg_File  :	RegAddr1_D:5                               	RegAddr2_D     :4                               	RegAddr3_W  :2                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :1         
+ID-Branch1fwd:	Fwd1Data_D:1                               	from regfile   :0                               	from ALU    :-2                              	from MEM      :x         	SEL       :1         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :1                               	from ALU    :-2                              	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :40                              	Reg1Data    :0                               	Reg2Data      :1         
+ID-JumpAddr  :	Output    :43253740                        	PCHeader       :0000                            	Extended    :43253740                        	
+ID-Main_CTRL :	Opcode_D  :000101                          	Func_D         :111011                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :1         	ALUCtrl_D:1    	ALUSrc_D:0    	RegDstAddrSEL_D:1    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:5                               	RtAddr_E       :3                               	RdAddr_E    :5                               	RegDstAddrSEL_E   :1         
+EX-Forward1  :	Forwarded1:1                               	from reg       :0                               	from MEM    :-2                              	From WB       :1         	SEL       :2         
+EX-Forward2  :	Forwarded2:19                              	from reg       :19                              	from MEM    :-2                              	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:2                               	RT Address     :3                               	WB Address  :8                               	RegWrtEN_M    :2         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :1                               	Op2            :19                              	ALUSrc_E    :0                               	RegRead1_E    :1         	RegRead2_E:19        	Shamt_E  :0         	Imm_E      :10282     
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :6                               	Op1           :1         	Op2       :19        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :1073741823                      	MemWrtData_M:1                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:2                               
+___________________________________________________________________________________________________
+[CC  16]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :1                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :8                               	Rs_E        :5         	Rt_E   :4    	WBAdd_M  :5    	WBAddr_W   :8    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :8                               	Rt_E          :4         	WBAddr_E  :31        	WBReg_M   :5                               	Beq         :0         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:68                              	PC+4           :68                              	Branch Addr :96                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :101011                          	Func_F      :001000                          
+IF-Jump_SEL  :	PCJumped  :68                              	PCBranched     :68                              	PCJumpAddr  :2097184                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :64                              	PC_in          :68                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :16                              	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :10101100000010000000000000001000	PCPlus4_out   :64                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:68                              
+
+ID-Instruct  :	Instruct  :10101100000010000000000000001000
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :8                               	Rs_Addr     :0                               	Rt_Addr       :8         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :8         	Opcode_D :101011	Func_D :001000
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :8                               	RegAddr3_W  :8                               	RegWrite      :4294967294	WrtEN     :4294967294	RegRead1 :0         	RegRead2   :-2        
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:4294967294                      	from regfile   :4294967294                      	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :96                              	Reg1Data    :0                               	Reg2Data      :4294967294
+ID-JumpAddr  :	Output    :2097184                         	PCHeader       :0000                            	Extended    :2097184                         	
+ID-Main_CTRL :	Opcode_D  :101011                          	Func_D         :001000                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :1         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:1    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:31                              	RtAddr_E       :4                               	RdAddr_E    :31                              	RegDstAddrSEL_E   :1         
+EX-Forward1  :	Forwarded1:1                               	from reg       :0                               	from MEM    :1                               	From WB       :-2        	SEL       :1         
+EX-Forward2  :	Forwarded2:1                               	from reg       :1                               	from MEM    :1                               	From WB       :-2        	SEL       :0         
+EX-FWD Unit  :	RS Address:5                               	RT Address     :4                               	WB Address  :5                               	RegWrtEN_M    :8         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :1                               	Op2            :1                               	ALUSrc_E    :0                               	RegRead1_E    :1         	RegRead2_E:1         	Shamt_E  :31        	Imm_E      :-5        
+EX-ALU       :	ALUOut_E  :0                               	Flag_E         :1                               	ALUCtrl_E   :1                               	Op1           :1         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:19                              	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:-2                              	ALUOut_W       :4294967294                      	MemRedData_W:x                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:8                               
+___________________________________________________________________________________________________
+[CC  17]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :0         	Rt_E   :8    	WBAdd_M  :31   	WBAddr_W   :5    	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :8         	WBAddr_E  :0         	WBReg_M   :31                              	Beq         :0         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:72                              	PC+4           :72                              	Branch Addr :72                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :72                              	PCBranched     :72                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :68                              	PC_in          :72                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :17                              	Fetched Inst   :10001100000010010000000000001000
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :68                              	Instr_in  :10001100000010010000000000001000	PCPlus4_in:72                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :5                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :1         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :1                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :72                              	Reg1Data    :0                               	Reg2Data      :1         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:0                               	RtAddr_E       :8                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :1         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :0                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:-2                              	from reg       :-2                              	from MEM    :0                               	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :8                               	WB Address  :31                              	RegWrtEN_M    :5         	RegWEN_M  :0         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :8                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:-2        	Shamt_E  :0         	Imm_E      :8         
+EX-ALU       :	ALUOut_E  :8                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :8         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:5                               
+___________________________________________________________________________________________________
+[CC  18]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :9                               	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :0    	WBAddr_W   :31   	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :9                               	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :0                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:76                              	PC+4           :76                              	Branch Addr :104                             	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :100011                          	Func_F      :001000                          
+IF-Jump_SEL  :	PCJumped  :76                              	PCBranched     :76                              	PCJumpAddr  :2359328                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :72                              	PC_in          :76                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :18                              	Fetched Inst   :00010001001010100000000000000010
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :10001100000010010000000000001000	PCPlus4_out   :72                              	Instr_in  :00010001001010100000000000000010	PCPlus4_in:76                              
+
+ID-Instruct  :	Instruct  :10001100000010010000000000001000
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :9                               	Rs_Addr     :0                               	Rt_Addr       :9         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :8         	Opcode_D :100011	Func_D :001000
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :9                               	RegAddr3_W  :31                              	RegWrite      :0         	WrtEN     :0         	RegRead1 :0         	RegRead2   :12        
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :8                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:12                              	from regfile   :12                              	from ALU    :8                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :104                             	Reg1Data    :0                               	Reg2Data      :12        
+ID-JumpAddr  :	Output    :2359328                         	PCHeader       :0000                            	Extended    :2359328                         	
+ID-Main_CTRL :	Opcode_D  :100011                          	Func_D         :001000                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :1         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :8                               	From WB       :0         	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :1                               	from MEM    :8                               	From WB       :0         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :0                               	RegWrtEN_M    :31        	RegWEN_M  :0         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:1                               	Index          :2                               	MemWrtData_M:-2                              	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:0                               	ALUOut_W       :0                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:31                              
+___________________________________________________________________________________________________
+[CC  19]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :9         	Rt_D      :10                              	Rs_E        :0         	Rt_E   :9    	WBAdd_M  :6    	WBAddr_W   :0    	RegWrtEN_M:1    	RegDstDataSEL_E:1    
+Hz-Stalling  :	Stall     :1                               	Rs_D           :9                               	Rt_D        :10                              	Rt_E          :9         	WBAddr_E  :9         	WBReg_M   :6                               	Beq         :1         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :1    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:76                              	PC+4           :76                              	Branch Addr :84                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000100                          	Func_F      :000010                          
+IF-Jump_SEL  :	PCJumped  :76                              	PCBranched     :76                              	PCJumpAddr  :11010056                        	JumpRegAddr   :12        	JSEL      :0         
+IF-PC_REG    :	PC_out    :72                              	PC_in          :76                              	Stalled?    :1                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :18                              	Fetched Inst   :00010001001010100000000000000010
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :1                               	Instr_out   :00010001001010100000000000000010	PCPlus4_out   :76                              	Instr_in  :00010001001010100000000000000010	PCPlus4_in:76                              
+
+ID-Instruct  :	Instruct  :00010001001010100000000000000010
+ID-Decoded   :	RegAddr1_D:9                               	RegAddr2_D     :10                              	Rs_Addr     :9                               	Rt_Addr       :10        	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :2         	Opcode_D :000100	Func_D :000010
+ID-Reg_File  :	RegAddr1_D:9                               	RegAddr2_D     :10                              	RegAddr3_W  :0                               	RegWrite      :8         	WrtEN     :8         	RegRead1 :12        	RegRead2   :-2        
+ID-Branch1fwd:	Fwd1Data_D:12                              	from regfile   :12                              	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:4294967294                      	from regfile   :4294967294                      	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :84                              	Reg1Data    :12                              	Reg2Data      :4294967294
+ID-JumpAddr  :	Output    :11010056                        	PCHeader       :0000                            	Extended    :11010056                        	
+ID-Main_CTRL :	Opcode_D  :000100                          	Func_D         :000010                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :1         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:0    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :1                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:9                               	RtAddr_E       :9                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :8         	SEL       :0         
+EX-Forward2  :	Forwarded2:12                              	from reg       :12                              	from MEM    :1                               	From WB       :8         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :9                               	WB Address  :6                               	RegWrtEN_M    :0         	RegWEN_M  :1         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :8                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:12        	Shamt_E  :0         	Imm_E      :8         
+EX-ALU       :	ALUOut_E  :8                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :8         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:8                               	ALUOut_W       :8                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:0                               
+___________________________________________________________________________________________________
+[CC  20]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :9         	Rt_D      :10                              	Rs_E        :9         	Rt_E   :10   	WBAdd_M  :9    	WBAddr_W   :6    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :1                               	Rs_D           :9                               	Rt_D        :10                              	Rt_E          :10        	WBAddr_E  :10        	WBReg_M   :9                               	Beq         :1         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :1    
+IF-Branch_SEL:	PCBranched:76                              	PC+4           :76                              	Branch Addr :84                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000100                          	Func_F      :000010                          
+IF-Jump_SEL  :	PCJumped  :76                              	PCBranched     :76                              	PCJumpAddr  :11010056                        	JumpRegAddr   :12        	JSEL      :0         
+IF-PC_REG    :	PC_out    :72                              	PC_in          :76                              	Stalled?    :1                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :18                              	Fetched Inst   :00010001001010100000000000000010
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :1                               	Instr_out   :00010001001010100000000000000010	PCPlus4_out   :76                              	Instr_in  :00010001001010100000000000000010	PCPlus4_in:76                              
+
+ID-Instruct  :	Instruct  :00010001001010100000000000000010
+ID-Decoded   :	RegAddr1_D:9                               	RegAddr2_D     :10                              	Rs_Addr     :9                               	Rt_Addr       :10        	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :2         	Opcode_D :000100	Func_D :000010
+ID-Reg_File  :	RegAddr1_D:9                               	RegAddr2_D     :10                              	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :12        	RegRead2   :-2        
+ID-Branch1fwd:	Fwd1Data_D:12                              	from regfile   :12                              	from ALU    :8                               	from MEM      :-2        	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:4294967294                      	from regfile   :4294967294                      	from ALU    :8                               	from MEM      :-2        	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :84                              	Reg1Data    :12                              	Reg2Data      :4294967294
+ID-JumpAddr  :	Output    :11010056                        	PCHeader       :0000                            	Extended    :11010056                        	
+ID-Main_CTRL :	Opcode_D  :000100                          	Func_D         :000010                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :1         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:0    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :1                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:10                              	RtAddr_E       :10                              	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:12                              	from reg       :12                              	from MEM    :8                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:-2                              	from reg       :-2                              	from MEM    :8                               	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:9                               	RT Address     :10                              	WB Address  :9                               	RegWrtEN_M    :6         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :12                              	Op2            :-2                              	ALUSrc_E    :0                               	RegRead1_E    :12        	RegRead2_E:-2        	Shamt_E  :0         	Imm_E      :2         
+EX-ALU       :	ALUOut_E  :10                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :12        	Op2       :-2        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :2                               	MemWrtData_M:12                              	MemReadData_M :-2        
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  21]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :2                               	Fwd2SEL_E     :0         	Rs_D      :9         	Rt_D      :10                              	Rs_E        :9         	Rt_E   :10   	WBAdd_M  :10   	WBAddr_W   :9    	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :9                               	Rt_D        :10                              	Rt_E          :10        	WBAddr_E  :10        	WBReg_M   :10                              	Beq         :1         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:84                              	PC+4           :88                              	Branch Addr :84                              	BranchSEL_D       :1         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :000100                          	Func_F      :000010                          
+IF-Jump_SEL  :	PCJumped  :84                              	PCBranched     :84                              	PCJumpAddr  :11010056                        	JumpRegAddr   :4294967294	JSEL      :0         
+IF-PC_REG    :	PC_out    :84                              	PC_in          :84                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :21                              	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00010001001010100000000000000010	PCPlus4_out   :76                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:88                              
+
+ID-Instruct  :	Instruct  :00010001001010100000000000000010
+ID-Decoded   :	RegAddr1_D:9                               	RegAddr2_D     :10                              	Rs_Addr     :9                               	Rt_Addr       :10        	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :2         	Opcode_D :000100	Func_D :000010
+ID-Reg_File  :	RegAddr1_D:9                               	RegAddr2_D     :10                              	RegAddr3_W  :9                               	RegWrite      :4294967294	WrtEN     :4294967294	RegRead1 :-2        	RegRead2   :-2        
+ID-Branch1fwd:	Fwd1Data_D:4294967294                      	from regfile   :4294967294                      	from ALU    :10                              	from MEM      :-2        	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:4294967294                      	from regfile   :4294967294                      	from ALU    :10                              	from MEM      :-2        	SEL       :0         
+ID-Branch    :	Branch?   :1                               	BranchAddr     :84                              	Reg1Data    :4294967294                      	Reg2Data      :4294967294
+ID-JumpAddr  :	Output    :11010056                        	PCHeader       :0000                            	Extended    :11010056                        	
+ID-Main_CTRL :	Opcode_D  :000100                          	Func_D         :000010                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :1         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:0    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:10                              	RtAddr_E       :10                              	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:-2                              	from reg       :12                              	from MEM    :10                              	From WB       :-2        	SEL       :2         
+EX-Forward2  :	Forwarded2:-2                              	from reg       :-2                              	from MEM    :10                              	From WB       :-2        	SEL       :0         
+EX-FWD Unit  :	RS Address:9                               	RT Address     :10                              	WB Address  :10                              	RegWrtEN_M    :9         	RegWEN_M  :0         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :-2                              	Op2            :-2                              	ALUSrc_E    :0                               	RegRead1_E    :-2        	RegRead2_E:-2        	Shamt_E  :0         	Imm_E      :2         
+EX-ALU       :	ALUOut_E  :-4                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :-2        	Op2       :-2        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :2                               	MemWrtData_M:-2                              	MemReadData_M :-2        
+
+WB-DataSEL   :	RegWrtDt_W:-2                              	ALUOut_W       :8                               	MemRedData_W:4294967294                      	RegDstDataSEL_W  :1         
+WB-DataAddr  :	RegAddr3_W:9                               
+___________________________________________________________________________________________________
+[CC  22]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :9         	Rt_E   :10   	WBAdd_M  :10   	WBAddr_W   :10   	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :10        	WBAddr_E  :10        	WBReg_M   :10                              	Beq         :0         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:92                              	PC+4           :92                              	Branch Addr :92                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :92                              	PCBranched     :92                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :88                              	PC_in          :92                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :22                              	Fetched Inst   :00100000000001100000000000000001
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :88                              	Instr_in  :00100000000001100000000000000001	PCPlus4_in:92                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :10                              	RegWrite      :10        	WrtEN     :10        	RegRead1 :0         	RegRead2   :1         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :-4                              	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :1                               	from ALU    :-4                              	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :92                              	Reg1Data    :0                               	Reg2Data      :1         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:10                              	RtAddr_E       :10                              	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:-2                              	from reg       :-2                              	from MEM    :-4                              	From WB       :10        	SEL       :0         
+EX-Forward2  :	Forwarded2:-2                              	from reg       :-2                              	from MEM    :-4                              	From WB       :10        	SEL       :0         
+EX-FWD Unit  :	RS Address:9                               	RT Address     :10                              	WB Address  :10                              	RegWrtEN_M    :10        	RegWEN_M  :0         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :-2                              	Op2            :-2                              	ALUSrc_E    :0                               	RegRead1_E    :-2        	RegRead2_E:-2        	Shamt_E  :0         	Imm_E      :2         
+EX-ALU       :	ALUOut_E  :0                               	Flag_E         :1                               	ALUCtrl_E   :1                               	Op1           :-2        	Op2       :-2        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :1073741823                      	MemWrtData_M:-2                              	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:10                              	ALUOut_W       :10                              	MemRedData_W:4294967294                      	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:10                              
+___________________________________________________________________________________________________
+[CC  23]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :1                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :0         	Rt_D      :6                               	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :10   	WBAddr_W   :10   	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :6                               	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :10                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:96                              	PC+4           :96                              	Branch Addr :96                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :001000                          	Func_F      :000001                          
+IF-Jump_SEL  :	PCJumped  :96                              	PCBranched     :96                              	PCJumpAddr  :1572868                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :92                              	PC_in          :96                              	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :23                              	Fetched Inst   :10101100000010110000000000001100
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :00100000000001100000000000000001	PCPlus4_out   :92                              	Instr_in  :10101100000010110000000000001100	PCPlus4_in:96                              
+
+ID-Instruct  :	Instruct  :00100000000001100000000000000001
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :6                               	Rs_Addr     :0                               	Rt_Addr       :6         	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :1         	Opcode_D :001000	Func_D :000001
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :6                               	RegAddr3_W  :10                              	RegWrite      :4294967292	WrtEN     :4294967292	RegRead1 :0         	RegRead2   :1         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :0                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:1                               	from regfile   :1                               	from ALU    :0                               	from MEM      :0         	SEL       :1         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :96                              	Reg1Data    :0                               	Reg2Data      :1         
+ID-JumpAddr  :	Output    :1572868                         	PCHeader       :0000                            	Extended    :1572868                         	
+ID-Main_CTRL :	Opcode_D  :001000                          	Func_D         :000001                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :0                               	From WB       :-4        	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :1                               	from MEM    :0                               	From WB       :-4        	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :10                              	RegWrtEN_M    :10        	RegWEN_M  :0         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:-2                              	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:-4                              	ALUOut_W       :4294967292                      	MemRedData_W:x                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:10                              
+___________________________________________________________________________________________________
+[CC  24]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :1         	Rs_D      :0         	Rt_D      :11                              	Rs_E        :0         	Rt_E   :6    	WBAdd_M  :6    	WBAddr_W   :10   	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :0                               	Rt_D        :11                              	Rt_E          :6         	WBAddr_E  :6         	WBReg_M   :6                               	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:100                             	PC+4           :100                             	Branch Addr :144                             	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :101011                          	Func_F      :001100                          
+IF-Jump_SEL  :	PCJumped  :100                             	PCBranched     :100                             	PCJumpAddr  :2883632                         	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :96                              	PC_in          :100                             	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :24                              	Fetched Inst   :11111111111111111111111111111111
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :10101100000010110000000000001100	PCPlus4_out   :96                              	Instr_in  :11111111111111111111111111111111	PCPlus4_in:100                             
+
+ID-Instruct  :	Instruct  :10101100000010110000000000001100
+ID-Decoded   :	RegAddr1_D:0                               	RegAddr2_D     :11                              	Rs_Addr     :0                               	Rt_Addr       :11        	Rd_Addr   :0         	Shamt_D  :0         	Imm_D      :12        	Opcode_D :101011	Func_D :001100
+ID-Reg_File  :	RegAddr1_D:0                               	RegAddr2_D     :11                              	RegAddr3_W  :10                              	RegWrite      :0         	WrtEN     :0         	RegRead1 :0         	RegRead2   :23        
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:23                              	from regfile   :23                              	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :144                             	Reg1Data    :0                               	Reg2Data      :23        
+ID-JumpAddr  :	Output    :2883632                         	PCHeader       :0000                            	Extended    :2883632                         	
+ID-Main_CTRL :	Opcode_D  :101011                          	Func_D         :001100                          	RegWrtEN_D  :0                               	RegDstDataSEL_D  :0         	MemWrtEN  :1         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:0    	ALUSrc_D:2    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:6                               	RtAddr_E       :6                               	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :0         	SEL       :0         
+EX-Forward2  :	Forwarded2:1                               	from reg       :1                               	from MEM    :1                               	From WB       :0         	SEL       :1         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :6                               	WB Address  :6                               	RegWrtEN_M    :10        	RegWEN_M  :1         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :1                               	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:1         	Shamt_E  :0         	Imm_E      :1         
+EX-ALU       :	ALUOut_E  :1                               	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :1         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:0                               	ALUOut_W       :0                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:10                              
+___________________________________________________________________________________________________
+[CC  25]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :31        	Rt_D      :31                              	Rs_E        :0         	Rt_E   :11   	WBAdd_M  :6    	WBAddr_W   :6    	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :31                              	Rt_D        :31                              	Rt_E          :11        	WBAddr_E  :11        	WBReg_M   :6                               	Beq         :0         	Bne    :0    	RegW_E   :0    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:104                             	PC+4           :104                             	Branch Addr :96                              	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :111111                          	Func_F      :111111                          
+IF-Jump_SEL  :	PCJumped  :104                             	PCBranched     :104                             	PCJumpAddr  :67108860                        	JumpRegAddr   :0         	JSEL      :0         
+IF-PC_REG    :	PC_out    :100                             	PC_in          :104                             	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :25                              	Fetched Inst   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :11111111111111111111111111111111	PCPlus4_out   :100                             	Instr_in  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_in:104                             
+
+ID-Instruct  :	Instruct  :11111111111111111111111111111111
+ID-Decoded   :	RegAddr1_D:31                              	RegAddr2_D     :31                              	Rs_Addr     :31                              	Rt_Addr       :31        	Rd_Addr   :31        	Shamt_D  :31        	Imm_D      :65535     	Opcode_D :111111	Func_D :111111
+ID-Reg_File  :	RegAddr1_D:31                              	RegAddr2_D     :31                              	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :0         	RegRead2   :0         
+ID-Branch1fwd:	Fwd1Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:0                               	from regfile   :0                               	from ALU    :1                               	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :96                              	Reg1Data    :0                               	Reg2Data      :0         
+ID-JumpAddr  :	Output    :67108860                        	PCHeader       :0000                            	Extended    :67108860                        	
+ID-Main_CTRL :	Opcode_D  :111111                          	Func_D         :111111                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:1    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:0                               
+EX-RegDstAddrSEL :	RegAddr3_E:11                              	RtAddr_E       :11                              	RdAddr_E    :0                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :1                               	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:23                              	from reg       :23                              	from MEM    :1                               	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:0                               	RT Address     :11                              	WB Address  :6                               	RegWrtEN_M    :6         	RegWEN_M  :1         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :12                              	ALUSrc_E    :2                               	RegRead1_E    :0         	RegRead2_E:23        	Shamt_E  :0         	Imm_E      :12        
+EX-ALU       :	ALUOut_E  :12                              	Flag_E         :0                               	ALUCtrl_E   :0                               	Op1           :0         	Op2       :12        
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :0                               	MemWrtData_M:1                               	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  26]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :x         	Rt_D      :x                               	Rs_E        :31        	Rt_E   :31   	WBAdd_M  :11   	WBAddr_W   :6    	RegWrtEN_M:0    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :x                               	Rt_D        :x                               	Rt_E          :31        	WBAddr_E  :31        	WBReg_M   :11                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:108                             	PC+4           :108                             	Branch Addr :x                               	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :xxxxxx                          	Func_F      :xxxxxx                          
+IF-Jump_SEL  :	PCJumped  :108                             	PCBranched     :108                             	PCJumpAddr  :X                               	JumpRegAddr   :x         	JSEL      :0         
+IF-PC_REG    :	PC_out    :104                             	PC_in          :108                             	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :26                              	Fetched Inst   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_out   :104                             	Instr_in  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_in:108                             
+
+ID-Instruct  :	Instruct  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ID-Decoded   :	RegAddr1_D:x                               	RegAddr2_D     :x                               	Rs_Addr     :x                               	Rt_Addr       :x         	Rd_Addr   :x         	Shamt_D  :x         	Imm_D      :x         	Opcode_D :xxxxxx	Func_D :xxxxxx
+ID-Reg_File  :	RegAddr1_D:x                               	RegAddr2_D     :x                               	RegAddr3_W  :6                               	RegWrite      :1         	WrtEN     :1         	RegRead1 :x         	RegRead2   :x         
+ID-Branch1fwd:	Fwd1Data_D:x                               	from regfile   :x                               	from ALU    :12                              	from MEM      :0         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:x                               	from regfile   :x                               	from ALU    :12                              	from MEM      :0         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :x                               	Reg1Data    :x                               	Reg2Data      :x         
+ID-JumpAddr  :	Output    :X                               	PCHeader       :0000                            	Extended    :X                               	
+ID-Main_CTRL :	Opcode_D  :xxxxxx                          	Func_D         :xxxxxx                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:1    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:31                              	RtAddr_E       :31                              	RdAddr_E    :31                              	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:0                               	from reg       :0                               	from MEM    :12                              	From WB       :1         	SEL       :0         
+EX-Forward2  :	Forwarded2:0                               	from reg       :0                               	from MEM    :12                              	From WB       :1         	SEL       :0         
+EX-FWD Unit  :	RS Address:31                              	RT Address     :31                              	WB Address  :11                              	RegWrtEN_M    :6         	RegWEN_M  :0         	RegWEN_W :1         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :0                               	Op2            :65535                           	ALUSrc_E    :1                               	RegRead1_E    :0         	RegRead2_E:0         	Shamt_E  :31        	Imm_E      :-1        
+EX-ALU       :	ALUOut_E  :-65535                          	Flag_E         :0                               	ALUCtrl_E   :1                               	Op1           :0         	Op2       :65535     
+
+MEM-Main Mem :	MemWrtEN_M:1                               	Index          :3                               	MemWrtData_M:23                              	MemReadData_M :0         
+
+WB-DataSEL   :	RegWrtDt_W:1                               	ALUOut_W       :1                               	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:6                               
+___________________________________________________________________________________________________
+[CC  27]
+
+Hz-Forwarding:	Fwd1SEL_D :0                               	Fwd2SEL_D      :0                               	Fwd1SEL_E   :0                               	Fwd2SEL_E     :0         	Rs_D      :x         	Rt_D      :x                               	Rs_E        :x         	Rt_E   :x    	WBAdd_M  :31   	WBAddr_W   :11   	RegWrtEN_M:1    	RegDstDataSEL_E:0    
+Hz-Stalling  :	Stall     :0                               	Rs_D           :x                               	Rt_D        :x                               	Rt_E          :x         	WBAddr_E  :x         	WBReg_M   :31                              	Beq         :0         	Bne    :0    	RegW_E   :1    	Mem2Reg_E  :0    	Mem2REG_M :0    
+IF-Branch_SEL:	PCBranched:108                             	PC+4           :108                             	Branch Addr :x                               	BranchSEL_D       :0         
+IF-Jump_CTRL :	JSEL      :0                               	Opcode_F       :xxxxxx                          	Func_F      :xxxxxx                          
+IF-Jump_SEL  :	PCJumped  :108                             	PCBranched     :108                             	PCJumpAddr  :X                               	JumpRegAddr   :x         	JSEL      :0         
+IF-PC_REG    :	PC_out    :104                             	PC_in          :108                             	Stalled?    :0                               	Reset?        :0                               
+IF-Inst_RAM  :	Index     :26                              	Fetched Inst   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+IF-ID-REG    :	Reset?    :0                               	Stalled?       :0                               	Instr_out   :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_out   :108                             	Instr_in  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	PCPlus4_in:108                             
+
+ID-Instruct  :	Instruct  :xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ID-Decoded   :	RegAddr1_D:x                               	RegAddr2_D     :x                               	Rs_Addr     :x                               	Rt_Addr       :x         	Rd_Addr   :x         	Shamt_D  :x         	Imm_D      :x         	Opcode_D :xxxxxx	Func_D :xxxxxx
+ID-Reg_File  :	RegAddr1_D:x                               	RegAddr2_D     :x                               	RegAddr3_W  :11                              	RegWrite      :12        	WrtEN     :12        	RegRead1 :x         	RegRead2   :x         
+ID-Branch1fwd:	Fwd1Data_D:x                               	from regfile   :x                               	from ALU    :-65535                          	from MEM      :x         	SEL       :0         
+ID-Branch2fwd:	Fwd2Data_D:x                               	from regfile   :x                               	from ALU    :-65535                          	from MEM      :x         	SEL       :0         
+ID-Branch    :	Branch?   :0                               	BranchAddr     :x                               	Reg1Data    :x                               	Reg2Data      :x         
+ID-JumpAddr  :	Output    :X                               	PCHeader       :0000                            	Extended    :X                               	
+ID-Main_CTRL :	Opcode_D  :xxxxxx                          	Func_D         :xxxxxx                          	RegWrtEN_D  :1                               	RegDstDataSEL_D  :0         	MemWrtEN  :0         	Beq_D    :0         	Bne_D      :0         	ALUCtrl_D:1    	ALUSrc_D:1    	RegDstAddrSEL_D:0    
+ID-EX-REG    :	flush?    :0                               
+
+EX-Controls  :	RegWrtEN_E:1                               
+EX-RegDstAddrSEL :	RegAddr3_E:x                               	RtAddr_E       :x                               	RdAddr_E    :x                               	RegDstAddrSEL_E   :0         
+EX-Forward1  :	Forwarded1:x                               	from reg       :x                               	from MEM    :-65535                          	From WB       :12        	SEL       :0         
+EX-Forward2  :	Forwarded2:x                               	from reg       :x                               	from MEM    :-65535                          	From WB       :12        	SEL       :0         
+EX-FWD Unit  :	RS Address:x                               	RT Address     :x                               	WB Address  :31                              	RegWrtEN_M    :11        	RegWEN_M  :1         	RegWEN_W :0         	Fwd1SEL    :z         	Fwd2SEL  :z    
+EX-ALUSrc    :	Op1       :x                               	Op2            :X                               	ALUSrc_E    :1                               	RegRead1_E    :x         	RegRead2_E:x         	Shamt_E  :x         	Imm_E      :x         
+EX-ALU       :	ALUOut_E  :x                               	Flag_E         :x                               	ALUCtrl_E   :1                               	Op1           :x         	Op2       :X         
+
+MEM-Main Mem :	MemWrtEN_M:0                               	Index          :1073725440                      	MemWrtData_M:0                               	MemReadData_M :x         
+
+WB-DataSEL   :	RegWrtDt_W:12                              	ALUOut_W       :12                              	MemRedData_W:0                               	RegDstDataSEL_W  :0         
+WB-DataAddr  :	RegAddr3_W:11                              
+___________________________________________________________________________________________________

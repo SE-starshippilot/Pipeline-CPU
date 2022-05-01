@@ -9,6 +9,7 @@ module test_CPU();
     localparam Signal_FNAME = "LogSignal.txt";
     localparam Register_FNAME = "LogRegister.txt";
     localparam RAM_FNAME = "LogRAM.txt";
+    localparam FORCE_STOP = 1000;
     integer Signal_FHANDLER = 0;
     integer Register_FHANDLER = 0;
     integer RAM_FHANDLER = 0;
@@ -111,7 +112,7 @@ module test_CPU();
                 LogRAM;
                 $finish;
             end
-            if (ClockCycleCount > 200) $finish;
+            if (ClockCycleCount > FORCE_STOP) $finish;
         end
         $fclose(Signal_FHANDLER);
         $fclose(Register_FHANDLER);

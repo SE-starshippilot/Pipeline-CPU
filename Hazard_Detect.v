@@ -22,9 +22,9 @@ module Hazard_Detect(
     always @(*) begin
         Stall <= 0;
         if (
-                ((RsAddr_D == RtAddr_E || RtAddr_D == RtAddr_E) && Mem2RegSEL_E != 0 ) //||                           //LW stall: if LW follows instruction that tries to use data from memory
-                //((Beq || Bne) && (Mem2RegSEL_M != 0  && (RsAddr_D == RegAddr3_M || RtAddr_D == RegAddr3_M))         //Branch stall: if branch try to get register data from MEM stage
-                //)
+                ((RsAddr_D == RtAddr_E || RtAddr_D == RtAddr_E) && Mem2RegSEL_E != 0 ) ||                           //LW stall: if LW follows instruction that tries to use data from memory
+                ((Beq || Bne) && (Mem2RegSEL_M != 0  && (RsAddr_D == RegAddr3_M || RtAddr_D == RegAddr3_M))         //Branch stall: if branch try to get register data from MEM stage
+                )
             ) 
         begin 
             Stall <= 1;

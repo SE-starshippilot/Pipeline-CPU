@@ -5,14 +5,14 @@ autorun:
 		echo "Executing Testcase $$var";\
 		BIN=$(addsuffix $$var.txt, $(BIN_NAME));\
 		RAM=$(addsuffix $$var.txt, $(RAM_NAME));\
-		make BIN=$$BIN RAM=$$RAM run --no-print-directory;\
-		echo "*******************************";\
+		make load BIN=$$BIN --no-print-directory;\
+		make compiled --no-print-directory;\
+		make run RAM=$$RAM --no-print-directory;\
+		echo "-----------------------------------------------------------------";\
 	done
 
 
-run:compiled 
-	@make load;
-	@make compiled -s;
+run:compiled
 	@vvp compiled;
 	@echo "Showing RAM after execution:";
 	@echo "********************************";
@@ -25,7 +25,7 @@ compiled: test_CPU.v ALU_SRC.v ALU.v CPU.v EX_MEM_REG.v Forward_Unit.v Hazard_De
 	@iverilog -o compiled test_CPU.v -Wselect-range;
 
 load:
-	@cp $(BIN) "instructions.bin"
+	@cp -f $(BIN) "instructions.bin"
 
 clean:
 	@rm *.out

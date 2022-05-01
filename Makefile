@@ -12,8 +12,8 @@ autorun:
 	done
 
 
-run:compiled
-	@vvp compiled;
+run:compiled.out
+	@vvp compiled.out;
 	@echo "Showing RAM after execution:";
 	@echo "********************************";
 	@cat LogRAM.txt;
@@ -21,8 +21,8 @@ run:compiled
 	@echo "Showing difference with correct:";
 	@diff LogRAM.txt $(RAM);
 
-compiled: test_CPU.v ALU_SRC.v ALU.v CPU.v EX_MEM_REG.v Forward_Unit.v Hazard_Detect.v ID_EX_REG.v IF_ID_REG.v InstructionRAM.v Jump_CTRL.v Main_CTRL.v MEM_WB_REG.v Mux.v PC_REG.v Register_File.v
-	@iverilog -o compiled test_CPU.v -Wselect-range;
+compiled.out: test_CPU.v ALU_SRC.v ALU.v CPU.v EX_MEM_REG.v Forward_Unit.v Hazard_Detect.v ID_EX_REG.v IF_ID_REG.v InstructionRAM.v Jump_CTRL.v Main_CTRL.v MEM_WB_REG.v Mux.v PC_REG.v Register_File.v
+	@iverilog -o compiled.out test_CPU.v -Wselect-range;
 
 load:
 	@cp -f $(BIN) "instructions.bin"

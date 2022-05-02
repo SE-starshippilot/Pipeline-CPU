@@ -1,6 +1,6 @@
 # CSC 3050 Assignment 4 Report
 
-Tianhao SHI, May 1^st^ 2022
+Tianhao SHI, May 1st, 2022
 
 ****
 

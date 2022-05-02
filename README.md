@@ -118,7 +118,7 @@ $make compiled								#this will generate 3 log files mentioned above
 
 ## Data Flow Chart
 
-<img src="E:\Documents\Year 2 Term2\CSC 3050\A4\proj4\a4.svg" alt="a4" style="zoom:200%;" />
+<img src="flowchart.svg" alt="a4" style="zoom:200%;" />
 
 ## Implementation Details
 

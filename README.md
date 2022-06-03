@@ -41,7 +41,7 @@ Tianhao SHI, May 1st, 2022
 ​	The Makefile contains a `autorun` feature, which will compile, execute and show the total clock cycle used, simulation result and its difference with correct answer.
 
 ```
-$cd 120090472
+$cd Pipeline-CPU
 $make autorun
 ```
 
@@ -54,7 +54,7 @@ $make run BIN=path/to/machine/code RAM=path/to/correct/RAM/state
 ​	Or if you just want to compile
 
 ```
-$cd 120090472
+$cd Pipeline-CPU
 $make load BIN=path/to/machine/code/file	#optional, you can also paste directly to the .bin file
 $make compiled								#this will generate 3 log files mentioned above
 ```
